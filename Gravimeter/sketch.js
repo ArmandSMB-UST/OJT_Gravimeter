@@ -17,6 +17,11 @@ function setup() {
   anchor = createVector(windowWidth/2, 0);
   velocity = createVector(0, 0);
   gravity = createVector(0, 0.5);
+
+  // slider - refer to this: createSlider(min, max, [value], [step])
+  slider = createSlider(.5, 3.5, 2, .05);
+  slider.position(10, 50);
+  slider.style('width', '150px');
 }
 
 function draw() {
@@ -29,13 +34,13 @@ function draw() {
   fill(178, 34, 34);
   circle(anchor.x, anchor.y, 32);
   circle(bob.x, bob.y, 64);
-  
+
   // if (mouseIsPressed){
   //   bob.x = mouseX;
   //   bob.y = mouseY;
   //   velocity.set(0, 0);
   // }
-  
+
   // vector that points from A to B
   let force = p5.Vector.sub(bob, anchor);
   console.log(force);
@@ -45,7 +50,7 @@ function draw() {
   force.normalize();
   // spring force
   force.mult(-1 * k * x);
-  
+
   // F = M*A (if M == 1)
   velocity.add(force);
   velocity.add(gravity);
@@ -53,4 +58,7 @@ function draw() {
 
   // damping
   velocity.mult(0.99);
-}
+
+  // adjust gravity
+  gravity.y = slider.value();
+} 
