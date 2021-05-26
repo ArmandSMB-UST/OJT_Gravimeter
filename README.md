@@ -1,2 +1,2 @@
 # OJT_Gravimeter
-2 ComSci and 1 Applied Physics nerd students create a 1D gravimeter simulation. 
+A collaborative effort between UST, UPLB, and NU students in creating a 1D Gravimeter simulation.
