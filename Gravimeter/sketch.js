@@ -8,15 +8,23 @@ let velocity;
 let k = 0.2; //kgs^{-2}
 // Gravity related constants
 let gravity;
-let mass_max = 1.498387735*10^8 //in kg
-let G = 6.67384 * 10 **(-11) //gravitational constant in m^3/kgs^{-2}
+let mass_max = 1.498387735 * Math.pow(10, 8) //in kg
+let G = 6.67384 * Math.pow(10, -11) //gravitational constant in m^3/kgs^{-2}
 let density_basalt = 3000 //in kgm^{-3}
 let density_coal = 1300 //in kgm^{-3}
+let volume_max = mass_max / density_coal
+let mass
+let delta_g
+let input
+let volume = 0
+let button
+let gravity_total_vector
+let gravity_total = 0
 //Define a volume_max = density / mass_max
   //Take this for slider, let mass = density*volume
   //This could be simplified as gravity_total = gravity + G*mass
 // rest length is the distance between the anchor and the bob
-let restLength = 200; 
+let restLength = 200
 // ----------------------------------------------------------------
 
 function setup() {
@@ -25,11 +33,30 @@ function setup() {
   anchor = createVector(windowWidth/2, 0);
   velocity = createVector(0, 0);
   gravity = createVector(0, 9.80665); //in ms^{-2}
+  gravity_total_vector = createVector(0, gravity_total)
 
   // slider - refer to this: createSlider(min, max, [value], [step])
-  slider = createSlider(0, 100, 0, 0.5); //assume this is in mGal
-  slider.position(10, 50);
-  slider.style('width', '150px');
+  density_slider = createSlider(density_coal, density_basalt, 0, 0.5); //assume this is in mGal
+  density_slider.position(10, 100);
+  density_slider.style('width', '250px');
+
+  // slider - refer to this: createSlider(min, max, [value], [step])
+  // volume_slider = createSlider(0, volume_max, 0, 0.5); //assume this is in mGal
+  // volume_slider.position(10, 100);
+  // volume_slider.style('width', '150px');
+
+  input = createInput()
+  input.position(10, 200)
+  input.style('width', '210px');
+
+  button = createButton('Input')
+  button.position(input.x + input.width, 200);
+  button.mousePressed(change_volume)
+}
+
+function change_volume(){
+  volume = Number(input.value())
+  input.value('')
 }
 
 function draw() {
@@ -42,6 +69,16 @@ function draw() {
   fill(178, 34, 34);
   circle(anchor.x, anchor.y, 32);
   circle(bob.x, bob.y, 64);
+
+  fill(0);
+  text('Density:', density_slider.x * -23 + density_slider.width, 65);
+  textSize(24);
+  text(String(density_slider.value()) + " units", density_slider.x * -10 + density_slider.width, 65);
+  textSize(24);
+  text('Volume: ', density_slider.x * -23 + density_slider.width, 165);
+  textSize(24);
+  text(String(volume) + " units", density_slider.x * -10 + density_slider.width, 165);
+  textSize(24);
 
   // if (mouseIsPressed){
   //   bob.x = mouseX;
@@ -59,14 +96,27 @@ function draw() {
   // spring force
   force.mult(-1 * k * y); //F = -k(s - s0)
 
+  mass = density_slider.value() * volume
+  delta_g = mass * G
+  gravity_total = gravity.y + delta_g
+
+  // fakes
+  delta_g_fake = 10000 * delta_g;
+  gravity_total_fake = gravity.y + delta_g_fake
+
   // F = M*A (if M == 1)
   velocity.add(force);
-  velocity.add(gravity);
+  velocity.add(gravity_total_vector);
   bob.add(velocity);
 
   // damping
   velocity.mult(0.38);  //according to one paper
 
-  // adjust gravity
-  gravity.y = slider.value();
+  console.log("volume max: " + volume_max)
+  console.log("mass: " + mass)
+  console.log("delta_g: " + delta_g)
+  console.log("g_total: " + gravity_total)
+
+  // adjust gravity total
+  gravity_total_vector.y = gravity_total_fake;
 } 
