@@ -12,7 +12,7 @@ let mass_max = 1.498387735 * Math.pow(10, 8) //in kg
 let G = 6.67384 * Math.pow(10, -11) //gravitational constant in m^3/kgs^{-2}
 let density_basalt = 3000 //in kgm^{-3}
 let density_coal = 1300 //in kgm^{-3}
-let volume_max = mass_max / density_coal
+let volume_max;
 let mass
 let delta_g
 let input
@@ -37,7 +37,7 @@ function setup() {
 
   // slider - refer to this: createSlider(min, max, [value], [step])
   density_slider = createSlider(density_coal, density_basalt, 0, 0.5); //assume this is in mGal
-  density_slider.position(10, 100);
+  density_slider.position(20, 100);
   density_slider.style('width', '250px');
 
   // slider - refer to this: createSlider(min, max, [value], [step])
@@ -46,11 +46,14 @@ function setup() {
   // volume_slider.style('width', '150px');
 
   input = createInput()
-  input.position(10, 200)
+  input.position(20, 200)
   input.style('width', '210px');
+  input.style('height', '45px');
 
   button = createButton('Input')
   button.position(input.x + input.width, 200);
+  button.style('width', '60px');
+  button.style('height', '50px');
   button.mousePressed(change_volume)
 }
 
@@ -71,14 +74,12 @@ function draw() {
   circle(bob.x, bob.y, 64);
 
   fill(0);
-  text('Density:', density_slider.x * -23 + density_slider.width, 65);
   textSize(24);
-  text(String(density_slider.value()) + " units", density_slider.x * -10 + density_slider.width, 65);
-  textSize(24);
-  text('Volume: ', density_slider.x * -23 + density_slider.width, 165);
-  textSize(24);
-  text(String(volume) + " units", density_slider.x * -10 + density_slider.width, 165);
-  textSize(24);
+  text('Density:', density_slider.x * -11.5 + density_slider.width, 65);
+  text(String(density_slider.value()) + ' units', density_slider.x * -5 + density_slider.width, 65);
+  text('Volume: ', density_slider.x * -11.5 + density_slider.width, 165);
+  text(String(volume) + " units", density_slider.x * -5 + density_slider.width, 165);
+  text('Recommended maximum volume: \n' + String(volume_max) + ' units', density_slider.x * -11.5 + density_slider.width, 285);
 
   // if (mouseIsPressed){
   //   bob.x = mouseX;
@@ -99,6 +100,7 @@ function draw() {
   mass = density_slider.value() * volume
   delta_g = mass * G
   gravity_total = gravity.y + delta_g
+  volume_max = mass_max / density_slider.value()
 
   // fakes
   delta_g_fake = 10000 * delta_g;
