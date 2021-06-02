@@ -37,7 +37,7 @@ function setup() {
 
   // slider - refer to this: createSlider(min, max, [value], [step])
   density_slider = createSlider(density_coal, density_basalt, 0, 0.5); //assume this is in mGal
-  density_slider.position(20, 100);
+  density_slider.position(20, 165);
   density_slider.style('width', '250px');
 
   // slider - refer to this: createSlider(min, max, [value], [step])
@@ -46,12 +46,12 @@ function setup() {
   // volume_slider.style('width', '150px');
 
   input = createInput()
-  input.position(20, 200)
+  input.position(20, 265)
   input.style('width', '210px');
   input.style('height', '45px');
 
   button = createButton('Input')
-  button.position(input.x + input.width, 200);
+  button.position(input.x + input.width, 265);
   button.style('width', '60px');
   button.style('height', '50px');
   button.mousePressed(change_volume)
@@ -75,11 +75,19 @@ function draw() {
 
   fill(0);
   textSize(24);
-  text('Density:', density_slider.x * -11.5 + density_slider.width, 65);
-  text(String(density_slider.value()) + ' units', density_slider.x * -5 + density_slider.width, 65);
-  text('Volume: ', density_slider.x * -11.5 + density_slider.width, 165);
-  text(String(volume) + " units", density_slider.x * -5 + density_slider.width, 165);
-  text('Recommended maximum volume: \n' + String(volume_max) + ' units', density_slider.x * -11.5 + density_slider.width, 285);
+
+  text('Gravity total:  ' + gravity_total, 10, 50);
+  text('Delta g:  ' + delta_g, 55, 100);
+
+  text('Density:', density_slider.x * -11.5 + density_slider.width, 150);
+  text(String(density_slider.value()) + ' units', density_slider.x * -5 + density_slider.width, 150);
+  text('Volume: ', density_slider.x * -11.5 + density_slider.width, 250);
+  text(String(volume) + " units", density_slider.x * -5 + density_slider.width, 250);
+  text('Recommended maximum volume: \n' + String(volume_max) + ' units', density_slider.x * -11.5 + density_slider.width, 370);
+
+  strokeWeight(1);
+  line(1100, 250, 650, 250);
+  line(1100, 750, 650, 750);
 
   // if (mouseIsPressed){
   //   bob.x = mouseX;
