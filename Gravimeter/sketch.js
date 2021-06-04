@@ -62,6 +62,13 @@ function change_volume(){
   input.value('')
 }
 
+function drawLine(x1, x2, y){
+  while(x1 < x2){
+    point(x1, y);
+    x1 += 10;
+  }
+}
+
 function draw() {
   // color : light blue
   background(68, 85, 90);
@@ -76,19 +83,22 @@ function draw() {
   fill(0);
   textSize(24);
 
-  text('Gravity total:  ' + gravity_total, 10, 50);
-  text('Delta g:  ' + delta_g, 55, 100);
+  text('Gravity total:\t' + gravity_total, 20, 50);
+  text('Delta g:\t' + delta_g, 20, 100);
 
   text('Density:', density_slider.x * -11.5 + density_slider.width, 150);
   text(String(density_slider.value()) + ' units', density_slider.x * -5 + density_slider.width, 150);
   text('Volume: ', density_slider.x * -11.5 + density_slider.width, 250);
   text(String(volume) + " units", density_slider.x * -5 + density_slider.width, 250);
   text('Recommended maximum volume: \n' + String(volume_max) + ' units', density_slider.x * -11.5 + density_slider.width, 370);
+  
+  strokeWeight(2);
+  drawLine(650, 1110, 250);
+  drawLine(650, 1110, 750)
 
-  strokeWeight(1);
-  line(1100, 250, 650, 250);
-  line(1100, 750, 650, 750);
-
+  spring_length = bob.y - anchor.y / 5;
+  text('Spring length: ' + spring_length, 20, 450);
+  
   // if (mouseIsPressed){
   //   bob.x = mouseX;
   //   bob.y = mouseY;
@@ -126,6 +136,7 @@ function draw() {
   console.log("mass: " + mass)
   console.log("delta_g: " + delta_g)
   console.log("g_total: " + gravity_total)
+  console.log("spring length: " + spring_length)
 
   // adjust gravity total
   gravity_total_vector.y = gravity_total_fake;
