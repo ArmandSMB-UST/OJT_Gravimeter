@@ -18,6 +18,7 @@ let delta_g
 let input
 let volume = 0
 let button
+let button_link
 let gravity_total_vector
 let gravity_total = 0
 //Define a volume_max = density / mass_max
@@ -55,6 +56,12 @@ function setup() {
   button.style('width', '60px');
   button.style('height', '50px');
   button.mousePressed(change_volume)
+
+  button_link = createButton('2D Sim');
+  button_link.position(20, 500);
+  button_link.style('width', '100px')
+  button_link.style('height', '50px')
+  button_link.mousePressed(change_page);
 }
 
 function change_volume(){
@@ -67,6 +74,10 @@ function drawLine(x1, x2, y){
     point(x1, y);
     x1 += 10;
   }
+}
+
+function change_page() {
+  location.replace("2DSim.html");
 }
 
 function draw() {
@@ -93,11 +104,12 @@ function draw() {
   text('Recommended maximum volume: \n' + String(volume_max) + ' units', density_slider.x * -11.5 + density_slider.width, 370);
   
   strokeWeight(2);
-  drawLine(650, 1110, 250);
-  drawLine(650, 1110, 750)
+  drawLine(windowWidth / 3, 1300, 250);
+  drawLine(windowWidth / 3, 1300, 750)
 
   spring_length = bob.y - anchor.y / 5;
   text('Spring length: ' + spring_length, 20, 450);
+
   
   // if (mouseIsPressed){
   //   bob.x = mouseX;
@@ -141,3 +153,5 @@ function draw() {
   // adjust gravity total
   gravity_total_vector.y = gravity_total_fake;
 } 
+
+
