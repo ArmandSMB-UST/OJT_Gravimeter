@@ -1,12 +1,16 @@
 // ARMAN'S PROJECT : GRAVIMETER
 
 var colors = [];
+var matrixValues = [];
+var anomalies = [];
+var volume = 10000000000;
+var G = 6.67384 * Math.pow(10, -11) //gravitational constant in m^3/kgs^{-2}
 
 // colors:
 
-  // grey = 128, 128, 128
-  // blue = 0, 0, 255
-  // brown = 165, 42, 42
+  // water = 146,208,235
+  // basalt = 128, 128, 128
+  // granite = 120, 98, 97
 
 function terrainObject(density, x, y, dimension){
   this.density = density;
@@ -19,6 +23,10 @@ function colorObject(r, g, b){
   this.r = r;
   this.g = g;
   this.b = b;
+}
+
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
 }
 
 function setupTerrain(){
@@ -236,21 +244,71 @@ function setupTerrain(){
   }
 }
 
+function computeAnomaly(){
+
+  for (var i = Math.floor(windowHeight/1.50); i < windowHeight; i+=10){
+      for (var j = 0; j < windowWidth; j+=10){
+          var summation = 0;
+          for (var k = 0; k < windowWidth; k+=10){
+              summation = summation + (matrixValues[i][j].density * volume);
+          }
+          anomalies[j] = summation * G;
+      }
+  }
+}
+
 function generateTerrain(){
   strokeWeight(0.1);
   // generates 2d matrix
   for (var i = Math.floor(windowHeight/1.50); i < windowHeight; i+=10){
-    for (var j = 0; j < windowWidth; j+=10){
-      fill(colors[i][j].r, colors[i][j].g, colors[i][j].b);
-      rect(j, i, 10, 10);
-    }
+      matrixValues[i] = []
+      for (var j = 0; j < windowWidth; j+=10){
+          // if water
+          if (colors[i][j].r == 146){
+              matrixValues[i][j] = new terrainObject(1.00, j, i, 10);
+          }
+          // if basalt
+          else if (colors[i][j].r == 128){
+              matrixValues[i][j] = new terrainObject(getRandomArbitrary(2.70, 3.20), j, i, 10); 
+          }
+          // else granite
+          else{
+              matrixValues[i][j] = new terrainObject(getRandomArbitrary(2.52, 2.75), j, i, 10);
+          }
+          fill(colors[i][j].r, colors[i][j].g, colors[i][j].b);
+          rect(j, i, 10, 10);
+      }
+  }
+
+  computeAnomaly();
+
+  for (var i = 0; i < windowWidth; i+=10){
+    console.log("anomaly: ", anomalies[i]);
+  }
+}
+
+function drawGraph(){
+
+  stroke(0);
+  strokeWeight(0.1);
+
+  let count = 10;
+  let px = count;
+  let py = anomalies[0];
+
+  for (var i = 0; i < windowWidth; i+=10){
+      let x = count;
+      let y = anomalies[i];
+      line(px, py, x, y);
+      px = x;
+      py = y;
+      count++;
   }
 }
 
 function change_page() {
   location.replace("soil.html");
 }
-
 
 function setup(){
   createCanvas(windowWidth, windowHeight);
@@ -265,4 +323,6 @@ function setup(){
 function draw(){
   background(237, 248, 250);
   generateTerrain();
+  drawGraph();
+  noLoop();
 }
