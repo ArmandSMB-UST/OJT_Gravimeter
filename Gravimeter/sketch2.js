@@ -31,7 +31,7 @@ function setupTerrain(){
       
       // brown - yung lupa sa gilid
       if (j > ((windowWidth/2)+150)){
-        colors[i][j] = new colorObject(165, 42, 42);
+        colors[i][j] = new colorObject(120, 98, 97);
       }
 
       // grey - ground under water
@@ -39,19 +39,19 @@ function setupTerrain(){
 
         if (i == (Math.floor(windowHeight/1.50))+70){
           if ((j == (windowWidth/64)-30 || j == (windowWidth/64)-20 || j == (windowWidth/64)-10)){
-            colors[i][j] = new colorObject(0, 0, 255);
+            colors[i][j] = new colorObject(146,208,235);
           }
           else if (j >= (windowWidth/64)+50 && j <= (windowWidth/64)+90){
-            colors[i][j] = new colorObject(0, 0, 255);
+            colors[i][j] = new colorObject(146,208,235);
           }
           else if (j >= (windowWidth/64)+300 && j <= (windowWidth/64)+340){
-            colors[i][j] = new colorObject(0, 0, 255);
+            colors[i][j] = new colorObject(146,208,235);
           }
           else if (j >= (windowWidth/64)+600 && j <= (windowWidth/64)+680){
-            colors[i][j] = new colorObject(0, 0, 255);
+            colors[i][j] = new colorObject(146,208,235);
           }
           else if (j >= (windowWidth/64)+780 && j <= (windowWidth/64)+880){
-            colors[i][j] = new colorObject(0, 0, 255);
+            colors[i][j] = new colorObject(146,208,235);
           }
           else{
             colors[i][j] = new colorObject(128, 128, 128);
@@ -60,7 +60,7 @@ function setupTerrain(){
 
         else if (i == (Math.floor(windowHeight/1.50))+80){
           if (j == (windowWidth/64)-30){
-            colors[i][j] = new colorObject(0, 0, 255);
+            colors[i][j] = new colorObject(146,208,235);
           }
           else{
             colors[i][j] = new colorObject(128, 128, 128);
@@ -75,26 +75,26 @@ function setupTerrain(){
 
       // blue - water
       else if (i <= (Math.floor(windowHeight/1.50))+60 && j < (windowWidth/2)-100){
-        colors[i][j] = new colorObject(0, 0, 255);
+        colors[i][j] = new colorObject(146,208,235);
       }
 
       else{
 
         if (i <= (Math.floor(windowHeight/1.50))+60 && j < (windowWidth/2)+150){
             if (j == (windowWidth/2)+140 && (i == (Math.floor(windowHeight/1.50))+60 || i == (Math.floor(windowHeight/1.50))+50)){
-              colors[i][j] = new colorObject(165, 42, 42);
+              colors[i][j] = new colorObject(120, 98, 97);
             }
             else{
-              colors[i][j] = new colorObject(0, 0, 255);
+              colors[i][j] = new colorObject(146,208,235);
             }
         }
 
         else if (i <= (Math.floor(windowHeight/1.50))+60 && j < (windowWidth/2)+160){
           if (i == (Math.floor(windowHeight/1.50))+10 || i == (Math.floor(windowHeight/1.50))+20){
-            colors[i][j] = new colorObject(0, 0, 255);
+            colors[i][j] = new colorObject(146,208,235);
           }
           else{
-            colors[i][j] = new colorObject(165, 42, 42);
+            colors[i][j] = new colorObject(120, 98, 97);
           }
         }
 
@@ -103,34 +103,34 @@ function setupTerrain(){
           if (i > (Math.floor(windowHeight/1.50))+60 && i <= (Math.floor(windowHeight/1.50))+140){
             // ------------------------ brown ---------------------------------------------------- //
             if (j == (windowWidth/2)+150 || j == (windowWidth/2)+140 || j == (windowWidth/2)+130){
-              colors[i][j] = new colorObject(165, 42, 42);
+              colors[i][j] = new colorObject(120, 98, 97);
             }
             else if (i >= (Math.floor(windowHeight/1.50))+70 && j == (windowWidth/2)+120){
-              colors[i][j] = new colorObject(165, 42, 42);
+              colors[i][j] = new colorObject(120, 98, 97);
             }
             else if (i >= (Math.floor(windowHeight/1.50))+80 && j == (windowWidth/2)+110){
-              colors[i][j] = new colorObject(165, 42, 42);
+              colors[i][j] = new colorObject(120, 98, 97);
             }
             else if (i >= (Math.floor(windowHeight/1.50))+90 && j == (windowWidth/2)+100){
-              colors[i][j] = new colorObject(165, 42, 42);
+              colors[i][j] = new colorObject(120, 98, 97);
             }
             else if (i >= (Math.floor(windowHeight/1.50))+100 && j == (windowWidth/2)+90){
-              colors[i][j] = new colorObject(165, 42, 42);
+              colors[i][j] = new colorObject(120, 98, 97);
             }
             else if (i >= (Math.floor(windowHeight/1.50))+110 && j == (windowWidth/2)+80){
-              colors[i][j] = new colorObject(165, 42, 42);
+              colors[i][j] = new colorObject(120, 98, 97);
             }
             else if (i >= (Math.floor(windowHeight/1.50))+120 && j == (windowWidth/2)+70){
-              colors[i][j] = new colorObject(165, 42, 42);
+              colors[i][j] = new colorObject(120, 98, 97);
             }
             else if (i >= (Math.floor(windowHeight/1.50))+120 && j == (windowWidth/2)+60){
-              colors[i][j] = new colorObject(165, 42, 42);
+              colors[i][j] = new colorObject(120, 98, 97);
             }
             else if (i >= (Math.floor(windowHeight/1.50))+130 && j == (windowWidth/2)+50){
-              colors[i][j] = new colorObject(165, 42, 42);
+              colors[i][j] = new colorObject(120, 98, 97);
             }
             else if (i >= (Math.floor(windowHeight/1.50))+140 && j == (windowWidth/2)+40){
-              colors[i][j] = new colorObject(165, 42, 42);
+              colors[i][j] = new colorObject(120, 98, 97);
             }
             // ------------------------ grey ---------------------------------------------------- //
             else if (i >= (Math.floor(windowHeight/1.50))+80 && j == (windowWidth/2)-100){
@@ -162,7 +162,7 @@ function setupTerrain(){
             }
             // ------------------------ blue ---------------------------------------------------- //
             else{
-              colors[i][j] = new colorObject(0, 0, 255);
+              colors[i][j] = new colorObject(146,208,235);
             }
           }
 
@@ -176,7 +176,7 @@ function setupTerrain(){
             }
             else if (i >= (Math.floor(windowHeight/1.50))+150 && j == (windowWidth/2)+10){
               if (i == (Math.floor(windowHeight/1.50))+150){
-                colors[i][j] = new colorObject(0, 0, 255);
+                colors[i][j] = new colorObject(146,208,235);
               }
               else{
                 colors[i][j] = new colorObject(128, 128, 128);
@@ -227,7 +227,7 @@ function setupTerrain(){
             }
             // ------------------------ brown ---------------------------------------------------- //
             else{
-              colors[i][j] = new colorObject(165, 42, 42);
+              colors[i][j] = new colorObject(120, 98, 97);
             }
           }
         }
@@ -237,6 +237,7 @@ function setupTerrain(){
 }
 
 function generateTerrain(){
+  strokeWeight(0.1);
   // generates 2d matrix
   for (var i = Math.floor(windowHeight/1.50); i < windowHeight; i+=10){
     for (var j = 0; j < windowWidth; j+=10){
@@ -262,5 +263,6 @@ function setup(){
 }
 
 function draw(){
+  background(237, 248, 250);
   generateTerrain();
 }
