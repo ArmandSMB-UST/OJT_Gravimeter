@@ -1,7 +1,7 @@
 var colors = [];
 var matrixValues = [];
 var anomalies = [];
-var volume = 100;
+var volume = 10000000000;
 var G = 6.67384 * Math.pow(10, -11) //gravitational constant in m^3/kgs^{-2}
 
 function terrainObject(density, x, y, dimension){
@@ -285,10 +285,6 @@ function computeAnomaly(){
             anomalies[j] = summation * G;
         }
     }
-
-    for (var j = 0; j < windowWidth; j+=10){
-        console.log(anomalies[j]);
-    }
 }
 
 function generateTerrain(){
@@ -297,7 +293,7 @@ function generateTerrain(){
     for (var i = Math.floor(windowHeight/1.50); i < windowHeight; i+=10){
         matrixValues[i] = []
         for (var j = 0; j < windowWidth; j+=10){
-            if (colors[i][j].r == 165){
+            if (colors[i][j].r == 134){
                 matrixValues[i][j] = new terrainObject(1.33, j, i, 10);
             }
             else{
@@ -305,11 +301,29 @@ function generateTerrain(){
             }
             fill(colors[i][j].r, colors[i][j].g, colors[i][j].b);
             rect(j, i, 10, 10);
-            console.log(matrixValues[i][j].density);
         }
     }
 
     computeAnomaly();
+}
+
+function drawGraph(){
+
+    stroke(0);
+    strokeWeight(0.1);
+
+    let count = 10;
+    let px = count;
+    let py = anomalies[0];
+
+    for (var i = 0; i < windowWidth; i+=10){
+        let x = count;
+        let y = anomalies[i];
+        line(px, py, x, y);
+        px = x;
+        py = y;
+        count++;
+    }
 }
 
 function setup(){
@@ -320,4 +334,6 @@ function setup(){
 function draw(){
     background(237, 248, 250);
     generateTerrain();
+    drawGraph();
+    noLoop();
 }
