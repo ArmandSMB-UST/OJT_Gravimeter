@@ -63,7 +63,7 @@ let gravity_total_scaled;
 // ---------------------------------
 
 // image variables
-let img_spring, img_sphereWeight, img_springBase, img_logo;
+let img_spring, img_sphereWeight, img_springBase, img_logo, img_leftPanel;
 
 // ------------colors---------------
 
@@ -117,6 +117,7 @@ function readImages(){
     img_spring = loadImage('vector_items/spring.png');
     img_sphereWeight = loadImage('vector_items/sphere_weight.png');
     img_springBase = loadImage('vector_items/spring_base.png');
+    img_leftPanel = loadImage('vector_items/left_panel.png');
 }
 
 // function for creating the vectors
@@ -435,7 +436,6 @@ function computeAnomaly(){
 
 // generates the terrain
 function generateTerrain(){
-    strokeWeight(0.1);
     // generates 2d matrix
     for (var i = Math.floor(windowHeight/1.50); i < windowHeight; i+=10){
         matrixValues[i] = []
@@ -446,12 +446,19 @@ function generateTerrain(){
             else{
                 matrixValues[i][j] = new terrainObject(getRandomArbitrary(1980, 2170), j, i, 10);
             }
+        }
+    }
+    computeAnomaly();
+}
+
+function drawTerrain(){
+    strokeWeight(0.1);
+    for (var i = Math.floor(windowHeight/1.50); i < windowHeight; i+=10){
+        for (var j = 0; j < windowWidth; j+=10){
             fill(colors[i][j].r, colors[i][j].g, colors[i][j].b);
             rect(j, i, 10, 10);
         }
     }
-
-    computeAnomaly();
 }
 
 // function drawGraph(){
@@ -480,13 +487,14 @@ function setup(){
     makeVectors();
     addButtons();
     setupTerrain();
+    generateTerrain();
 }
 
 function draw(){
     background(237, 248, 250);
     textSize(30);
 
-    generateTerrain();
+    drawTerrain();
     // drawGraph();
 
     fill(0, 0, 0);
@@ -502,8 +510,38 @@ function draw(){
     image(img_spring, windowWidth/2 - 27, 50, 54, spring_length-85);
     image(img_sphereWeight, windowWidth/2 - 39, bob.y-35, 78, 70);
     image(img_springBase, windowWidth/2 - 195, 0, 390, 52);
+    image(img_leftPanel, windowWidth/2 - 950, 120, 640, 400);
 
+    //lines
+    fill(0, 0, 0);
+    stroke(0);
+    strokeWeight(1);
+    textSize(16);
+  
+    // x-axis 0 
+    line(40, 500, 630, 500);
+    text('0', 24, 505);
+  
+    // y-axis
+    line(40, 500, 40, 180);
+  
+    // x-axis 25
+    line(40, 400, 630, 400);
+    text('25', 18, 405);
+  
+    // x-axis 50
+    line(40, 300, 630, 300);
+    text('50', 18, 305);
+  
+    // x-axis 75
+    line(40, 200, 630, 200);
+    text('75', 18, 205);
+  
+    textSize(20);
+    text('Graph of Soil Deposit', 215, 160);
+  
     // texts
+    textSize(30);
     text('Spring length: ' + actual_length.toFixed(3) + ' mm', 790, 35);
 
     let count = 100;

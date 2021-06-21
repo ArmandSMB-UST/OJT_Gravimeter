@@ -63,7 +63,7 @@ let gravity_total_scaled;
 // ---------------------------------
 
 // image variables
-let img_spring, img_sphereWeight, img_springBase, img_logo;
+let img_spring, img_sphereWeight, img_springBase, img_logo, img_leftPanel;
 
 // ------------colors---------------
 
@@ -118,6 +118,7 @@ function readImages(){
   img_spring = loadImage('vector_items/spring.png');
   img_sphereWeight = loadImage('vector_items/sphere_weight.png');
   img_springBase = loadImage('vector_items/spring_base.png');
+  img_leftPanel = loadImage('vector_items/left_panel.png');
 }
 
 // function for creating the vectors
@@ -376,9 +377,11 @@ function setupTerrain(){
   }
 }
 
+
+
 // computes for the anomaly per column
 function computeAnomaly(){
-
+  
   for (var i = Math.floor(windowHeight/1.50); i < windowHeight; i+=10){
       for (var j = 0; j < windowWidth; j+=10){
           var summation = 0;
@@ -392,7 +395,6 @@ function computeAnomaly(){
 
 // generates the terrain
 function generateTerrain(){
-  strokeWeight(0.1);
   // generates 2d matrix
   for (var i = Math.floor(windowHeight/1.50); i < windowHeight; i+=10){
       matrixValues[i] = []
@@ -409,12 +411,20 @@ function generateTerrain(){
           else{
               matrixValues[i][j] = new terrainObject(getRandomArbitrary(2520, 2750), j, i, 10);
           }
-          fill(colors[i][j].r, colors[i][j].g, colors[i][j].b);
-          rect(j, i, 10, 10);
       }
   }
-
+  // setInterval(function(){computeAnomaly()}, 1000);
   computeAnomaly();
+}
+
+function drawTerrain(){
+  strokeWeight(0.1);
+  for (var i = Math.floor(windowHeight/1.50); i < windowHeight; i+=10){
+    for (var j = 0; j < windowWidth; j+=10){
+        fill(colors[i][j].r, colors[i][j].g, colors[i][j].b);
+        rect(j, i, 10, 10);
+    }
+  }
 }
 
 // // function for drawing the graph
@@ -444,15 +454,16 @@ function setup(){
   makeVectors();
   addButtons();
   setupTerrain();
+  generateTerrain()
 }
 
 // draw function
 function draw(){
-
   background(237, 248, 250);
   textSize(30);
 
-  generateTerrain();
+  // setInterval(function(){generateTerrain()}, 10000);
+  drawTerrain()
   // drawGraph();
 
   fill(0, 0, 0);
@@ -468,20 +479,52 @@ function draw(){
   image(img_spring, windowWidth/2 - 27, 50, 54, spring_length-85);
   image(img_sphereWeight, windowWidth/2 - 39, bob.y-35, 78, 70);
   image(img_springBase, windowWidth/2 - 195, 0, 390, 52);
+  image(img_leftPanel, windowWidth/2 - 950, 120, 640, 400);
+ 
+
+  //lines
+  fill(0, 0, 0);
+  stroke(0);
+  strokeWeight(1);
+  textSize(16);
+
+  // x-axis 0 
+  line(40, 500, 630, 500);
+  text('0', 24, 505);
+
+  // y-axis
+  line(40, 500, 40, 180);
+
+  // x-axis 25
+  line(40, 400, 630, 400);
+  text('25', 18, 405);
+
+  // x-axis 50
+  line(40, 300, 630, 300);
+  text('50', 18, 305);
+
+  // x-axis 75
+  line(40, 200, 630, 200);
+  text('75', 18, 205);
+
+  textSize(20);
+  text('Graph of Subduction Zone', 215, 160);
 
   // texts
+  textSize(30);
   text('Spring length: ' + actual_length.toFixed(3) + ' mm', 790, 35);
+  
 
-  let count = 100;
+  let count = 45;
   let px = count;
-  let py = anomalies[0]*400000;
+  let py = anomalies[0] * Math.pow(10, 5) * 6 - 200;
 
   stroke(0);
   strokeWeight(1);
 
   // iterates through all of the anomalies
   for (var i = 0; i < windowWidth; i+=10){
-
+ 
     // vector from A to B
     force = p5.Vector.sub(bob, anchor);
   
@@ -498,7 +541,8 @@ function draw(){
     
     // scaled values (actual length and pixels)
     anomaly_scaled = 10000*anomaly;
-    console.log(anomaly_scaled);
+    // setTimeout(function(){console.log(anomaly)}, 10000);
+    console.log(anomaly);
     gravity_total_scaled = gravity.y + anomaly_scaled;
 
     // moves the bob -> assumption: F = m*a (if m == 1kg)
@@ -509,14 +553,66 @@ function draw(){
     // damping
     velocity.mult(0.38);
 
-    // adjust gravity total
+    // adjust gravity total 
     gravity_total_vector.y = gravity_total_scaled;
 
     let x = count;
-    let y = anomalies[i]*400000;
+    let y = anomalies[i] * Math.pow(10, 5) * 6 - 200;
     line(px, py, x, y);
+    // setInterval(line(px, py, x, y), 3000); 
     px = x;
     py = y;
-    count++;
+    count += 3;
   }
+
+
+  // Set interval test
+
+  // var i = 0;
+  // var intervalID = setInterval(function(){
+  //   if(i >= windowWidth){
+  //     clearInterval(intervalID);
+  //   }
+  //   // vector from A to B
+  //   force = p5.Vector.sub(bob, anchor);
+  
+  //   // displacement - change in length
+  //   displacement = force.mag() - restLength;
+    
+  //   // normalize the force vector
+  //   force.normalize();
+    
+  //   // spring force (F = -k(s - s0))
+  //   force.mult(-1 * k * displacement);
+
+  //   anomaly = anomalies[i];
+    
+  //   // scaled values (actual length and pixels)
+  //   anomaly_scaled = 10000*anomaly;
+  //   // setTimeout(function(){console.log(anomaly)}, 10000);
+  //   console.log(anomaly);
+  //   gravity_total_scaled = gravity.y + anomaly_scaled;
+
+  //   // moves the bob -> assumption: F = m*a (if m == 1kg)
+  //   velocity.add(force);
+  //   velocity.add(gravity_total_vector);
+  //   bob.add(velocity);
+
+  //   // damping
+  //   velocity.mult(0.38);
+
+  //   // adjust gravity total 
+  //   gravity_total_vector.y = gravity_total_scaled;
+
+  //   let x = count;
+  //   let y = anomalies[i] * Math.pow(10, 5) * 6 - 200;
+  //   line(px, py, x, y);
+  //   // setInterval(line(px, py, x, y), 3000); 
+  //   px = x;
+  //   py = y;
+  //   count += 3;
+  //   i++;
+  // }, 3000);
+
+
 }
