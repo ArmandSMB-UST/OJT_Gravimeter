@@ -12,7 +12,7 @@ var matrixValues = [];
 var anomalies = [];
 
 // volume per cell
-var volume = 25;
+var volume = 16;
 
 // weight
 let bob;
@@ -481,6 +481,9 @@ function draw(){
   image(img_springBase, windowWidth/2 - 195, 0, 390, 52);
   image(img_leftPanel, windowWidth/2 - 950, 120, 640, 400);
  
+  // graph background
+  fill(255, 255, 255);
+  rect(20, 130 , 620, 350);
 
   //lines
   fill(0, 0, 0);
@@ -488,36 +491,46 @@ function draw(){
   strokeWeight(1);
   textSize(16);
 
-  // x-axis 0 
-  line(40, 500, 630, 500);
-  text('0', 24, 505);
-
   // y-axis
-  line(40, 500, 40, 180);
-
-  // x-axis 25
-  line(40, 400, 630, 400);
-  text('25', 18, 405);
+  line(100, 450, 100, 150);
+  
+  // x-axis 40 
+  line(100, 450, 630, 450);
+  text('40', 79, 455);
 
   // x-axis 50
-  line(40, 300, 630, 300);
-  text('50', 18, 305);
+  line(100, 350, 630, 350);
+  text('50', 79, 355);
 
-  // x-axis 75
-  line(40, 200, 630, 200);
-  text('75', 18, 205);
+  // x-axis 60
+  line(100, 250, 630, 250);
+  text('60', 79, 255);
 
+  // x-axis 70
+  line(100, 150, 630, 150);
+  text('70', 79, 155);
+
+  // y-axis label
   textSize(20);
-  text('Graph of Subduction Zone', 215, 160);
+  text('Δg', 50, 285);
+  textSize(20);
+  text('(mGal)', 30, 315);
+
+  // x-axis label
+  textSize(20);
+  text('index (j)', 330, 470);
+
+  // graph title
+  textSize(20);
+  text('Graph of Subduction Zone', 245, 500);
 
   // texts
   textSize(30);
   text('Spring length: ' + actual_length.toFixed(3) + ' mm', 790, 35);
   
-
-  let count = 45;
+  let count = 100;
   let px = count;
-  let py = anomalies[0] * Math.pow(10, 5) * 6 - 200;
+  let py = anomalies[0] * Math.pow(10, 5) + 250;
 
   stroke(0);
   strokeWeight(1);
@@ -540,9 +553,9 @@ function draw(){
     anomaly = anomalies[i];
     
     // scaled values (actual length and pixels)
-    anomaly_scaled = 10000*anomaly;
+    anomaly_scaled = Math.pow(10,5) * anomaly;
     // setTimeout(function(){console.log(anomaly)}, 10000);
-    console.log(anomaly);
+    //console.log(anomaly);
     gravity_total_scaled = gravity.y + anomaly_scaled;
 
     // moves the bob -> assumption: F = m*a (if m == 1kg)
@@ -557,12 +570,12 @@ function draw(){
     gravity_total_vector.y = gravity_total_scaled;
 
     let x = count;
-    let y = anomalies[i] * Math.pow(10, 5) * 6 - 200;
+    let y = anomalies[i] * Math.pow(10, 5)*10 - 270;
     line(px, py, x, y);
     // setInterval(line(px, py, x, y), 3000); 
     px = x;
     py = y;
-    count += 3;
+    count += 2.75;
   }
 
 
