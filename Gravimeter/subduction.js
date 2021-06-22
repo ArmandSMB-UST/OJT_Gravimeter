@@ -413,7 +413,6 @@ function generateTerrain(){
           }
       }
   }
-  // setInterval(function(){computeAnomaly()}, 1000);
   computeAnomaly();
 }
 
@@ -447,6 +446,7 @@ function drawTerrain(){
 //   }
 // }
 
+
 // setup function
 function setup(){
   createCanvas(windowWidth, windowHeight);
@@ -454,15 +454,34 @@ function setup(){
   makeVectors();
   addButtons();
   setupTerrain();
-  generateTerrain()
+  generateTerrain();
+
+  // buttonDraw = createButton('Draw lines');
+  // buttonDraw.position(120, 500);
+  // buttonDraw.style('width', '100px');
+  // buttonDraw.style('height', '50px');
+  // buttonDraw.mousePressed(drawRect)
+
+  
+  //Patanggal nito
+  function add(){
+    var a = 1;
+    console.log(a);
+  }
+
+  buttonDraw = createButton('Test');
+  buttonDraw.position(120, 483);
+  buttonDraw.style('width', '100px');
+  buttonDraw.style('height', '30px');
+  buttonDraw.mousePressed(add); 
 }
+
 
 // draw function
 function draw(){
   background(237, 248, 250);
   textSize(30);
 
-  // setInterval(function(){generateTerrain()}, 10000);
   drawTerrain()
   // drawGraph();
 
@@ -530,17 +549,41 @@ function draw(){
   
   let count = 100;
   let px = count;
-  let py = anomalies[0] * Math.pow(10, 5) + 250;
+  let py = anomalies[100] * Math.pow(10, 5) + 250;
 
   stroke(0);
   strokeWeight(1);
 
-  // iterates through all of the anomalies
-  for (var i = 0; i < windowWidth; i+=10){
- 
-    // vector from A to B
-    force = p5.Vector.sub(bob, anchor);
+  /////////////////////////////////////////////////           PROTOTYPE             ////////////////////////////////////////////////////
+
+  // force = p5.Vector.sub(bob, anchor);
+  // displacement = force.mag() - restLength;
+  // force.normalize();
+  // force.mult(-1 * k * displacement);
+  // anomaly = anomalies[10];
+  // anomaly_scaled = Math.pow(10, 5) * anomaly;
+  // gravity_total_scaled = gravity.y + anomaly_scaled;
   
+  // velocity.add(force);
+  // velocity.add(gravity_total_vector);
+  // bob.add(velocity);
+  // velocity.mult(0.38);
+  // gravity_total_vector.y = gravity_total_scaled;
+
+  // let x = count;
+  // let y = anomalies[10] * Math.pow(10, 5) * 10 - 270;
+  // line(px, py, x, y);
+  // px = y;
+  // py = y;
+
+
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  for (var i = 0; i < windowWidth; i+=10){
+
+    force = p5.Vector.sub(bob, anchor);
+
     // displacement - change in length
     displacement = force.mag() - restLength;
     
@@ -554,8 +597,8 @@ function draw(){
     
     // scaled values (actual length and pixels)
     anomaly_scaled = Math.pow(10,5) * anomaly;
-    // setTimeout(function(){console.log(anomaly)}, 10000);
-    //console.log(anomaly);
+
+    // console.log(anomaly);
     gravity_total_scaled = gravity.y + anomaly_scaled;
 
     // moves the bob -> assumption: F = m*a (if m == 1kg)
@@ -571,12 +614,81 @@ function draw(){
 
     let x = count;
     let y = anomalies[i] * Math.pow(10, 5)*10 - 270;
+    // var dummy = new lineGraph(px, py, x, y);
+    // lineArray.push(dummy);
     line(px, py, x, y);
-    // setInterval(line(px, py, x, y), 3000); 
     px = x;
     py = y;
     count += 2.75;
   }
+
+/////////////////////////////////////////////////////////       ITO PRE        //////////////////////////////////////////////////////////
+
+  // var y1 = anomalies[0] * Math.pow(10, 5)*10 - 270;
+  // var y2 = anomalies[10] * Math.pow(10, 5)*10 - 270;
+  // var y3 = anomalies[20] * Math.pow(10, 5)*10 - 270;
+  // var y4 = anomalies[30] * Math.pow(10, 5)*10 - 270;
+  // var y5 = anomalies[40] * Math.pow(10, 5)*10 - 270;
+  // var y6 = anomalies[50] * Math.pow(10, 5)*10 - 270;
+  
+  // line(100, anomalies[100] * Math.pow(10, 5) + 250, 100, y1);
+  // line(100, y1, 102.75, y2);
+  // line(102.75, y2, 105.50, y3);
+  // line(105.50, y3, 108.25, y4);
+  // line(108.25, y4, 111, y5);
+  // line(111, y5, 113.75, y6);
+
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // var counter = 0;
+  // var i = setInterval(function (){
+  //   // vector from A to B
+  //   force = p5.Vector.sub(bob, anchor);
+      
+  //   // displacement - change in length
+  //   displacement = force.mag() - restLength;
+
+  //   // normalize the force vector
+  //   force.normalize();
+
+  //   // spring force (F = -k(s - s0))
+  //   force.mult(-1 * k * displacement);
+
+  //   anomaly = anomalies[i];
+
+  //   // scaled values (actual length and pixels)
+  //   anomaly_scaled = Math.pow(10,5) * anomaly;
+  //   // setTimeout(function(){console.log(anomaly)}, 10000);
+  //   //console.log(anomaly);
+  //   gravity_total_scaled = gravity.y + anomaly_scaled;
+
+  //   // moves the bob -> assumption: F = m*a (if m == 1kg)
+  //   velocity.add(force);
+  //   velocity.add(gravity_total_vector);
+  //   bob.add(velocity);
+
+  //   // damping
+  //   velocity.mult(0.38);
+
+  //   // adjust gravity total 
+  //   gravity_total_vector.y = gravity_total_scaled;
+
+  //   let x = count;
+  //   let y = anomalies[i] * Math.pow(10, 5)*10 - 270;
+  //   line(px, py, x, y);
+  //   // setInterval(line(px, py, x, y), 3000); 
+  //   px = x;
+  //   py = y;
+  //   count += 2.75;
+
+  //   counter++;
+  //   if(counter == 1000){
+  //     clearInterval(i);
+  //   }
+  // }, 1000);
+
+  /////////////////////////////////////////////////           PROTOTYPE             ////////////////////////////////////////////////////
 
 
   // Set interval test
@@ -626,6 +738,32 @@ function draw(){
   //   count += 3;
   //   i++;
   // }, 3000);
-
-
 }
+
+
+// function lineGraph(px, py, x, y){
+//   this.px = px;
+//   this.py = py;
+//   this.x = x;
+//   this.y = y;
+// }
+
+// function traverseGraph(number){
+//   var newNumber = number += 1;
+//   return newNumber;
+// }
+
+// var lineArray = [];
+// function lineArray_values(x){
+//   for(var i = 0; i < x; i++){
+//     // lineArray[i] = []
+//     // for(var j = 0; j < x; j++){
+//       var dummy = new lineGraph(1, 1, 1, 1);
+//       lineArray.push(dummy);
+//     }
+//   }
+
+
+// lineArray_values(2);
+// console.log(lineArray)
+// console.log(traverseGraph(1));
