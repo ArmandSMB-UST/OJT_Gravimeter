@@ -65,6 +65,8 @@ let gravity_total_scaled;
 // image variables
 let img_spring, img_sphereWeight, img_springBase, img_logo, img_leftPanel;
 
+let iteration = 0;
+
 // ------------colors---------------
 
   // water = (146, 208, 235)
@@ -86,6 +88,12 @@ function colorObject(r, g, b){
   this.r = r;
   this.g = g;
   this.b = b;
+}
+
+var test_var = 0;
+function loop(){
+  test_var++;
+  console.log(test_var);
 }
 
 // function for getting a randomm number from min to max
@@ -159,6 +167,35 @@ function addButtons(){
   button_link4.style('width', '400px');
   button_link4.style('height', '120px');
   button_link4.mousePressed(changePageW);
+}
+
+function addButtons_draw(){
+  // Increment button
+  button_add = createButton('Increment');
+  button_add.position(120, 483);
+  button_add.style('width', '80px');
+  button_add.style('height', '30px');
+  button_add.mousePressed(add); 
+
+  // Decrement button
+  button_subtract = createButton('Decrement');
+  button_subtract.position(30, 483);
+  button_subtract.style('width', '80px');
+  button_subtract.style('height', '30px');
+  button_subtract.mousePressed(subtract);
+
+  // Graph button
+  button_graph = createButton("Graph");
+  button_graph.position(500, 483);
+  button_graph.style('width', '80px');
+  button_graph.style('height', '30px');
+  button_graph.mousePressed(add_continuous);
+
+  button_clearGraph = createButton("Clear");
+  button_clearGraph.position(700, 483);
+  button_clearGraph.style('width', '80px');
+  button_clearGraph.style('height', '30px');
+  button_clearGraph.mousePressed(clear_graph);
 }
 
 // setup terrain function
@@ -377,8 +414,6 @@ function setupTerrain(){
   }
 }
 
-
-
 // computes for the anomaly per column
 function computeAnomaly(){
   
@@ -426,26 +461,29 @@ function drawTerrain(){
   }
 }
 
-// // function for drawing the graph
-// function drawGraph(){
+function add(){
+  iteration += 10;
+}
 
-//   stroke(0);
-//   strokeWeight(1);
+function subtract(){
+  iteration -= 10;
+}
 
-//   let count = 100;
-//   let px = count;
-//   let py = anomalies[0]*350000;
+function add_continuous(){
+  var i = 0;  
+  var timer = setInterval(function(){
+    iteration += 10;
+    console.log(iteration)
+    i++;
+    if(i >= anomalies.length / 10){ 
+      clearInterval(timer);
+    }
+  }, 100);
+}
 
-//   for (var i = 0; i < windowWidth; i+=10){
-//       let x = count;
-//       let y = anomalies[i]*350000;
-//       line(px, py, x, y);
-//       px = x;
-//       py = y;
-//       count++;
-//   }
-// }
-
+function clear_graph(){
+  iteration = 0;
+}
 
 // setup function
 function setup(){
@@ -455,36 +493,18 @@ function setup(){
   addButtons();
   setupTerrain();
   generateTerrain();
-
-  // buttonDraw = createButton('Draw lines');
-  // buttonDraw.position(120, 500);
-  // buttonDraw.style('width', '100px');
-  // buttonDraw.style('height', '50px');
-  // buttonDraw.mousePressed(drawRect)
-
-  
-  //Patanggal nito
-  function add(){
-    var a = 1;
-    console.log(a);
-  }
-
-  buttonDraw = createButton('Test');
-  buttonDraw.position(120, 483);
-  buttonDraw.style('width', '100px');
-  buttonDraw.style('height', '30px');
-  buttonDraw.mousePressed(add); 
 }
-
 
 // draw function
 function draw(){
   background(237, 248, 250);
   textSize(30);
 
-  drawTerrain()
-  // drawGraph();
+  addButtons_draw();
+  
+  drawTerrain();
 
+  // drawGraph();
   fill(0, 0, 0);
   strokeWeight(0);
 
@@ -554,33 +574,7 @@ function draw(){
   stroke(0);
   strokeWeight(1);
 
-  /////////////////////////////////////////////////           PROTOTYPE             ////////////////////////////////////////////////////
-
-  // force = p5.Vector.sub(bob, anchor);
-  // displacement = force.mag() - restLength;
-  // force.normalize();
-  // force.mult(-1 * k * displacement);
-  // anomaly = anomalies[10];
-  // anomaly_scaled = Math.pow(10, 5) * anomaly;
-  // gravity_total_scaled = gravity.y + anomaly_scaled;
-  
-  // velocity.add(force);
-  // velocity.add(gravity_total_vector);
-  // bob.add(velocity);
-  // velocity.mult(0.38);
-  // gravity_total_vector.y = gravity_total_scaled;
-
-  // let x = count;
-  // let y = anomalies[10] * Math.pow(10, 5) * 10 - 270;
-  // line(px, py, x, y);
-  // px = y;
-  // py = y;
-
-
-
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  for (var i = 0; i < windowWidth; i+=10){
+  for (var i = 0; i < iteration; i+=10){
 
     force = p5.Vector.sub(bob, anchor);
 
@@ -611,159 +605,13 @@ function draw(){
 
     // adjust gravity total 
     gravity_total_vector.y = gravity_total_scaled;
-
+    
     let x = count;
     let y = anomalies[i] * Math.pow(10, 5)*10 - 270;
-    // var dummy = new lineGraph(px, py, x, y);
-    // lineArray.push(dummy);
     line(px, py, x, y);
     px = x;
     py = y;
     count += 2.75;
   }
-
-/////////////////////////////////////////////////////////       ITO PRE        //////////////////////////////////////////////////////////
-
-  // var y1 = anomalies[0] * Math.pow(10, 5)*10 - 270;
-  // var y2 = anomalies[10] * Math.pow(10, 5)*10 - 270;
-  // var y3 = anomalies[20] * Math.pow(10, 5)*10 - 270;
-  // var y4 = anomalies[30] * Math.pow(10, 5)*10 - 270;
-  // var y5 = anomalies[40] * Math.pow(10, 5)*10 - 270;
-  // var y6 = anomalies[50] * Math.pow(10, 5)*10 - 270;
-  
-  // line(100, anomalies[100] * Math.pow(10, 5) + 250, 100, y1);
-  // line(100, y1, 102.75, y2);
-  // line(102.75, y2, 105.50, y3);
-  // line(105.50, y3, 108.25, y4);
-  // line(108.25, y4, 111, y5);
-  // line(111, y5, 113.75, y6);
-
-
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  // var counter = 0;
-  // var i = setInterval(function (){
-  //   // vector from A to B
-  //   force = p5.Vector.sub(bob, anchor);
-      
-  //   // displacement - change in length
-  //   displacement = force.mag() - restLength;
-
-  //   // normalize the force vector
-  //   force.normalize();
-
-  //   // spring force (F = -k(s - s0))
-  //   force.mult(-1 * k * displacement);
-
-  //   anomaly = anomalies[i];
-
-  //   // scaled values (actual length and pixels)
-  //   anomaly_scaled = Math.pow(10,5) * anomaly;
-  //   // setTimeout(function(){console.log(anomaly)}, 10000);
-  //   //console.log(anomaly);
-  //   gravity_total_scaled = gravity.y + anomaly_scaled;
-
-  //   // moves the bob -> assumption: F = m*a (if m == 1kg)
-  //   velocity.add(force);
-  //   velocity.add(gravity_total_vector);
-  //   bob.add(velocity);
-
-  //   // damping
-  //   velocity.mult(0.38);
-
-  //   // adjust gravity total 
-  //   gravity_total_vector.y = gravity_total_scaled;
-
-  //   let x = count;
-  //   let y = anomalies[i] * Math.pow(10, 5)*10 - 270;
-  //   line(px, py, x, y);
-  //   // setInterval(line(px, py, x, y), 3000); 
-  //   px = x;
-  //   py = y;
-  //   count += 2.75;
-
-  //   counter++;
-  //   if(counter == 1000){
-  //     clearInterval(i);
-  //   }
-  // }, 1000);
-
-  /////////////////////////////////////////////////           PROTOTYPE             ////////////////////////////////////////////////////
-
-
-  // Set interval test
-
-  // var i = 0;
-  // var intervalID = setInterval(function(){
-  //   if(i >= windowWidth){
-  //     clearInterval(intervalID);
-  //   }
-  //   // vector from A to B
-  //   force = p5.Vector.sub(bob, anchor);
-  
-  //   // displacement - change in length
-  //   displacement = force.mag() - restLength;
-    
-  //   // normalize the force vector
-  //   force.normalize();
-    
-  //   // spring force (F = -k(s - s0))
-  //   force.mult(-1 * k * displacement);
-
-  //   anomaly = anomalies[i];
-    
-  //   // scaled values (actual length and pixels)
-  //   anomaly_scaled = 10000*anomaly;
-  //   // setTimeout(function(){console.log(anomaly)}, 10000);
-  //   console.log(anomaly);
-  //   gravity_total_scaled = gravity.y + anomaly_scaled;
-
-  //   // moves the bob -> assumption: F = m*a (if m == 1kg)
-  //   velocity.add(force);
-  //   velocity.add(gravity_total_vector);
-  //   bob.add(velocity);
-
-  //   // damping
-  //   velocity.mult(0.38);
-
-  //   // adjust gravity total 
-  //   gravity_total_vector.y = gravity_total_scaled;
-
-  //   let x = count;
-  //   let y = anomalies[i] * Math.pow(10, 5) * 6 - 200;
-  //   line(px, py, x, y);
-  //   // setInterval(line(px, py, x, y), 3000); 
-  //   px = x;
-  //   py = y;
-  //   count += 3;
-  //   i++;
-  // }, 3000);
 }
 
-
-// function lineGraph(px, py, x, y){
-//   this.px = px;
-//   this.py = py;
-//   this.x = x;
-//   this.y = y;
-// }
-
-// function traverseGraph(number){
-//   var newNumber = number += 1;
-//   return newNumber;
-// }
-
-// var lineArray = [];
-// function lineArray_values(x){
-//   for(var i = 0; i < x; i++){
-//     // lineArray[i] = []
-//     // for(var j = 0; j < x; j++){
-//       var dummy = new lineGraph(1, 1, 1, 1);
-//       lineArray.push(dummy);
-//     }
-//   }
-
-
-// lineArray_values(2);
-// console.log(lineArray)
-// console.log(traverseGraph(1));

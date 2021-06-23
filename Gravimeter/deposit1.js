@@ -65,6 +65,8 @@ let gravity_total_scaled;
 // image variables
 let img_spring, img_sphereWeight, img_springBase, img_logo, img_leftPanel;
 
+let iteration = 0;
+
 // ------------colors---------------
 
   // soil = (134, 94, 77)
@@ -158,6 +160,35 @@ function addButtons(){
     button_link4.style('width', '400px');
     button_link4.style('height', '120px');
     button_link4.mousePressed(changePageW);
+}
+
+function addButtons_draw(){
+    // Increment button
+    button_add = createButton('Increment');
+    button_add.position(120, 483);
+    button_add.style('width', '80px');
+    button_add.style('height', '30px');
+    button_add.mousePressed(add); 
+  
+    // Decrement button
+    button_subtract = createButton('Decrement');
+    button_subtract.position(30, 483);
+    button_subtract.style('width', '80px');
+    button_subtract.style('height', '30px');
+    button_subtract.mousePressed(subtract);
+  
+    // Graph button
+    button_graph = createButton("Graph");
+    button_graph.position(500, 483);
+    button_graph.style('width', '80px');
+    button_graph.style('height', '30px');
+    button_graph.mousePressed(add_continuous);
+  
+    button_clearGraph = createButton("Clear");
+    button_clearGraph.position(700, 483);
+    button_clearGraph.style('width', '80px');
+    button_clearGraph.style('height', '30px');
+    button_clearGraph.mousePressed(clear_graph);
 }
 
 //setup terrain function
@@ -280,10 +311,7 @@ function setupTerrain(){
                 else if ((i <= (Math.floor(windowHeight/1.50))+290) && (j == (windowWidth/2)+360)){
                     colors[i][j] = new colorObject(134, 94, 77);
                 }
-                else if ((i <= (Math.floor(windowHeight/1.50))+290) && (j == (windowWidth/2)+370)){
-                    colors[i][j] = new colorObject(134, 94, 77);
-                }
-                else if ((i <= (Math.floor(windowHeight/1.50))+300) && (j == (windowWidth/2)+380)){
+                else if ((i <= (Math.floor(windowHeight/1.50))+300) && (j == (windowWidth/2)+370)){
                     colors[i][j] = new colorObject(134, 94, 77);
                 }
                 else{
@@ -408,6 +436,9 @@ function setupTerrain(){
             else if ((i <= (Math.floor(windowHeight/1.50))+300) && (j == (windowWidth/2)-380)){
                 colors[i][j] = new colorObject(134, 94, 77);
             }
+            else if ((i <= (Math.floor(windowHeight/1.50))+310) && (j == (windowWidth/2)-380)){
+                colors[i][j] = new colorObject(201, 192, 187);
+            }
             else{
                 if (j < (windowWidth/2)-370){
                     colors[i][j] = new colorObject(134, 94, 77);
@@ -461,24 +492,29 @@ function drawTerrain(){
     }
 }
 
-// function drawGraph(){
+function add(){
+    iteration += 10;
+  }
+  
+  function subtract(){
+    iteration -= 10;
+  }
+  
+  function add_continuous(){
+    var i = 0;  
+    var timer = setInterval(function(){
+      iteration += 10;
+      console.log(iteration)
+      i++;
+      if(i >= anomalies.length / 10){ 
+        clearInterval(timer);
+      }
+    }, 100);
+  }
 
-//     stroke(0);
-//     strokeWeight(0.1);
-
-//     let count = 10;
-//     let px = count;
-//     let py = anomalies[0];
-
-//     for (var i = 0; i < windowWidth; i+=10){
-//         let x = count;
-//         let y = anomalies[i];
-//         line(px, py, x, y);
-//         px = x;
-//         py = y;
-//         count++;
-//     }
-// }
+  function clear_graph(){
+      iteration = 0;
+  }
 
 // setup function
 function setup(){
@@ -493,6 +529,8 @@ function setup(){
 function draw(){
     background(237, 248, 250);
     textSize(30);
+
+    addButtons_draw();
 
     drawTerrain();
     // drawGraph();
@@ -552,7 +590,7 @@ function draw(){
     strokeWeight(1);
 
     // iterates through all of the anomalies
-    for (var i = 0; i < windowWidth; i+=10){
+    for (var i = 0; i < iteration; i+=10){
 
         // vector from A to B
         force = p5.Vector.sub(bob, anchor);
