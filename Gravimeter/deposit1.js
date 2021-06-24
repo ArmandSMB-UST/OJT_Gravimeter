@@ -12,7 +12,7 @@ var matrixValues = [];
 var anomalies = [];
 
 // volume per cell
-var volume = 25;
+var volume = 16;
 
 // weight
 let bob;
@@ -112,7 +112,7 @@ function changePageGM(){
 // change page to welcome
 function changePageW(){
     location.replace("index.html");
-  }
+}
 
 // function for reading the images
 function readImages(){
@@ -162,34 +162,35 @@ function addButtons(){
     button_link4.mousePressed(changePageW);
 }
 
+// function for button for graph
 function addButtons_draw(){
     // Increment button
-    button_add = createButton('Increment');
-    button_add.position(120, 483);
-    button_add.style('width', '80px');
+    button_add = createButton('>');
+    button_add.position(70, 483);
+    button_add.style('width', '25px');
     button_add.style('height', '30px');
     button_add.mousePressed(add); 
   
     // Decrement button
-    button_subtract = createButton('Decrement');
-    button_subtract.position(30, 483);
-    button_subtract.style('width', '80px');
+    button_subtract = createButton('<');
+    button_subtract.position(40, 483);
+    button_subtract.style('width', '25px');
     button_subtract.style('height', '30px');
     button_subtract.mousePressed(subtract);
   
     // Graph button
     button_graph = createButton("Graph");
-    button_graph.position(500, 483);
+    button_graph.position(100, 483);
     button_graph.style('width', '80px');
     button_graph.style('height', '30px');
     button_graph.mousePressed(add_continuous);
   
     button_clearGraph = createButton("Clear");
-    button_clearGraph.position(700, 483);
+    button_clearGraph.position(550, 483);
     button_clearGraph.style('width', '80px');
     button_clearGraph.style('height', '30px');
     button_clearGraph.mousePressed(clear_graph);
-}
+  }
 
 //setup terrain function
 function setupTerrain(){
@@ -482,6 +483,7 @@ function generateTerrain(){
     computeAnomaly();
 }
 
+// draw and color terrain
 function drawTerrain(){
     strokeWeight(0.1);
     for (var i = Math.floor(windowHeight/1.50); i < windowHeight; i+=10){
@@ -494,27 +496,27 @@ function drawTerrain(){
 
 function add(){
     iteration += 10;
-  }
+}
   
-  function subtract(){
+function subtract(){
     iteration -= 10;
-  }
+}
   
-  function add_continuous(){
+function add_continuous(){
     var i = 0;  
     var timer = setInterval(function(){
       iteration += 10;
-      console.log(iteration)
+      //console.log(iteration)
       i++;
       if(i >= anomalies.length / 10){ 
         clearInterval(timer);
       }
     }, 100);
-  }
+}
 
-  function clear_graph(){
-      iteration = 0;
-  }
+function clear_graph(){
+    iteration = 0;
+}
 
 // setup function
 function setup(){
@@ -550,33 +552,49 @@ function draw(){
     image(img_springBase, windowWidth/2 - 195, 0, 390, 52);
     image(img_leftPanel, windowWidth/2 - 950, 120, 640, 400);
 
-    //lines
-    fill(0, 0, 0);
-    stroke(0);
-    strokeWeight(1);
-    textSize(16);
+    // graph background
+  fill(255, 255, 255);
+  rect(20, 130 , 620, 350);
+
+   //lines
+  fill(0, 0, 0);
+  stroke(0);
+  strokeWeight(1);
+  textSize(16);
+
+  // y-axis
+  line(100, 450, 100, 150);
+  line(630, 450, 630, 150);
   
-    // x-axis 0 
-    line(40, 500, 630, 500);
-    text('0', 24, 505);
-  
-    // y-axis
-    line(40, 500, 40, 180);
-  
-    // x-axis 25
-    line(40, 400, 630, 400);
-    text('25', 18, 405);
-  
-    // x-axis 50
-    line(40, 300, 630, 300);
-    text('50', 18, 305);
-  
-    // x-axis 75
-    line(40, 200, 630, 200);
-    text('75', 18, 205);
-  
-    textSize(20);
-    text('Graph of Soil Deposit', 215, 160);
+  // x-axis 45.0
+  line(100, 450, 630, 450);
+  text('45.0', 66, 455);
+
+  // x-axis 37.5
+  line(100, 350, 630, 350);
+  text('37.5', 66, 355);
+
+  // x-axis 30.0
+  line(100, 250, 630, 250);
+  text('30.0', 66, 255);
+
+  // x-axis 22.5
+  line(100, 150, 630, 150);
+  text('22.5', 66, 155);
+
+  // y-axis label
+  textSize(20);
+  text('Δg', 50, 285);
+  textSize(20);
+  text('(mGal)', 30, 315);
+
+  // x-axis label
+  textSize(20);
+  text('index (j)', 330, 470);
+
+  // graph title
+  textSize(20);
+  text('Mineral Deposit Subduction Zone', 210, 505);
   
     // texts
     textSize(30);
@@ -584,49 +602,49 @@ function draw(){
 
     let count = 100;
     let px = count;
-    let py = anomalies[0]*400000;
-
+    let py = anomalies[0] * Math.pow(10, 5) + 250;
+  
     stroke(0);
     strokeWeight(1);
-
-    // iterates through all of the anomalies
+  
     for (var i = 0; i < iteration; i+=10){
-
-        // vector from A to B
-        force = p5.Vector.sub(bob, anchor);
-
-        // displacement - change in length
-        displacement = force.mag() - restLength;
-
-        // normalize the force vector
-        force.normalize();
-
-        // spring force (F = -k(s - s0))
-        force.mult(-1 * k * displacement);
-
-        anomaly = anomalies[i];
-
-        // scaled values (actual length and pixels)
-        anomaly_scaled = 10000*anomaly;
-        console.log(anomaly_scaled);
-        gravity_total_scaled = gravity.y + anomaly_scaled;
-
-        // moves the bob -> assumption: F = m*a (if m == 1kg)
-        velocity.add(force);
-        velocity.add(gravity_total_vector);
-        bob.add(velocity);
-
-        // damping
-        velocity.mult(0.38);
-
-        // adjust gravity total
-        gravity_total_vector.y = gravity_total_scaled;
-
-        let x = count;
-        let y = anomalies[i]*400000;
-        line(px, py, x, y);
-        px = x;
-        py = y;
-        count++;
+  
+      force = p5.Vector.sub(bob, anchor);
+  
+      // displacement - change in length
+      displacement = force.mag() - restLength;
+      
+      // normalize the force vector
+      force.normalize();
+      
+      // spring force (F = -k(s - s0))
+      force.mult(-1 * k * displacement);
+  
+      anomaly = anomalies[i];
+      
+      // scaled values (actual length and pixels)
+      anomaly_scaled = Math.pow(10,5) * anomaly;
+  
+      // console.log(anomaly);
+      gravity_total_scaled = gravity.y + anomaly_scaled;
+  
+      // moves the bob -> assumption: F = m*a (if m == 1kg)
+      velocity.add(force);
+      velocity.add(gravity_total_vector);
+      bob.add(velocity);
+  
+      // damping
+      velocity.mult(0.38);
+  
+      // adjust gravity total 
+      gravity_total_vector.y = gravity_total_scaled;
+      
+      let x = count;
+      let y = anomalies[i] * Math.pow(10, 5)*10;
+      //console.log(y/10);
+      line(px, py, x, y);
+      px = x;
+      py = y;
+      count += 2.765;
     }
 }

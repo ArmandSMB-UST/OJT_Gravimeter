@@ -90,12 +90,6 @@ function colorObject(r, g, b){
   this.b = b;
 }
 
-var test_var = 0;
-function loop(){
-  test_var++;
-  console.log(test_var);
-}
-
 // function for getting a randomm number from min to max
 function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
@@ -169,30 +163,31 @@ function addButtons(){
   button_link4.mousePressed(changePageW);
 }
 
+// function for button for graph
 function addButtons_draw(){
   // Increment button
-  button_add = createButton('Increment');
-  button_add.position(120, 483);
-  button_add.style('width', '80px');
+  button_add = createButton('>');
+  button_add.position(70, 483);
+  button_add.style('width', '25px');
   button_add.style('height', '30px');
   button_add.mousePressed(add); 
 
   // Decrement button
-  button_subtract = createButton('Decrement');
-  button_subtract.position(30, 483);
-  button_subtract.style('width', '80px');
+  button_subtract = createButton('<');
+  button_subtract.position(40, 483);
+  button_subtract.style('width', '25px');
   button_subtract.style('height', '30px');
   button_subtract.mousePressed(subtract);
 
   // Graph button
   button_graph = createButton("Graph");
-  button_graph.position(500, 483);
+  button_graph.position(100, 483);
   button_graph.style('width', '80px');
   button_graph.style('height', '30px');
   button_graph.mousePressed(add_continuous);
 
   button_clearGraph = createButton("Clear");
-  button_clearGraph.position(700, 483);
+  button_clearGraph.position(550, 483);
   button_clearGraph.style('width', '80px');
   button_clearGraph.style('height', '30px');
   button_clearGraph.mousePressed(clear_graph);
@@ -451,6 +446,7 @@ function generateTerrain(){
   computeAnomaly();
 }
 
+// draw and color terrain
 function drawTerrain(){
   strokeWeight(0.1);
   for (var i = Math.floor(windowHeight/1.50); i < windowHeight; i+=10){
@@ -461,19 +457,22 @@ function drawTerrain(){
   }
 }
 
+// add increment for graph
 function add(){
   iteration += 10;
 }
 
+// subtract increment for graph
 function subtract(){
   iteration -= 10;
 }
 
+// graph
 function add_continuous(){
   var i = 0;  
   var timer = setInterval(function(){
     iteration += 10;
-    console.log(iteration)
+    //console.log(iteration)
     i++;
     if(i >= anomalies.length / 10){ 
       clearInterval(timer);
@@ -481,6 +480,7 @@ function add_continuous(){
   }, 100);
 }
 
+// clear graph
 function clear_graph(){
   iteration = 0;
 }
@@ -532,22 +532,23 @@ function draw(){
 
   // y-axis
   line(100, 450, 100, 150);
+  line(630, 450, 630, 150);
   
   // x-axis 40 
   line(100, 450, 630, 450);
-  text('40', 79, 455);
+  text('40.0', 67, 455);
 
   // x-axis 50
   line(100, 350, 630, 350);
-  text('50', 79, 355);
+  text('50.0', 67, 355);
 
   // x-axis 60
   line(100, 250, 630, 250);
-  text('60', 79, 255);
+  text('60.0', 67, 255);
 
   // x-axis 70
   line(100, 150, 630, 150);
-  text('70', 79, 155);
+  text('70.0', 67, 155);
 
   // y-axis label
   textSize(20);
@@ -561,7 +562,7 @@ function draw(){
 
   // graph title
   textSize(20);
-  text('Graph of Subduction Zone', 245, 500);
+  text('Subduction Zone Gravity Profile', 215, 505);
 
   // texts
   textSize(30);
@@ -608,10 +609,11 @@ function draw(){
     
     let x = count;
     let y = anomalies[i] * Math.pow(10, 5)*10 - 270;
+    console.log(y/10);
     line(px, py, x, y);
     px = x;
     py = y;
-    count += 2.75;
+    count += 2.765;
   }
 }
 

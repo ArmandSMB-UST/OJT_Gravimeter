@@ -6,10 +6,9 @@ function readImages(){
 // change page to gravimeter
 function changePageGM(){
     location.replace("gravimeter.html");
-  }
+}
 
 function addButtons(){
-    // subduction zone button
     button_link1 = createImg('vector_items/start.png');
     button_link1.position(windowWidth/2-80, 4.5*windowHeight/7);
     button_link1.style('width', '170px');

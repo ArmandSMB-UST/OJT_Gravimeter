@@ -19,12 +19,12 @@ let force;
 // displacement
 let displacement;
 
-// ------------------------
+// --- Spring Related Constants ---
 
 // distance between the anchor and the bob
 let restLength = 200.965;
 
-// spring constant - kgs^{-2}
+// spring constant in kgs^{-2}
 let k = 0.2;
 
 // --- Gravity Related Constants ---
@@ -32,7 +32,7 @@ let k = 0.2;
 // gravity vector
 let gravity;
 
-// gravitational constant - m^3/kgs^{-2}
+// gravitational constant in m^3/kgs^{-2}
 let G = 6.67384 * Math.pow(10, -11);
 
 // gravitational anomaly
@@ -50,7 +50,7 @@ let gravity_total_scaled;
 
 // ---------------------------------
 
-// densities - kgm^{-3}
+// densities in kgm^{-3}
 let density_basalt = 3000;
 let density_coal = 1300;
 let density_slider;
@@ -58,7 +58,7 @@ let density_slider;
 // input for volume
 let input;
 
-// volume - m^3
+// volume in m^3
 let volume = 0;
 
 // button for input confirmation
