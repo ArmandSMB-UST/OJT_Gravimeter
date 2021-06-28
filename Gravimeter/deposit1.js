@@ -65,7 +65,7 @@ let gravity_total_scaled;
 // image variables
 let img_spring, img_sphereWeight, img_springBase, img_logo, img_leftPanel;
 
-let iteration = 0;
+let lim = 0;
 
 // ------------colors---------------
 
@@ -494,29 +494,45 @@ function drawTerrain(){
     }
 }
 
+// add increment for graph
 function add(){
-    iteration += 10;
-}
+    loop();
+    if(lim < 0){
+      lim += 10;
+    }
+    lim += 10;
+  }
   
-function subtract(){
-    iteration -= 10;
-}
+  // subtract increment for graph
+  function subtract(){
+    loop();
+    if(lim < 10){
+      return;
+    }
+    lim -= 10;
+  }
   
-function add_continuous(){
+  // graph
+  function add_continuous(){
+    loop();
     var i = 0;  
+    lim = 0;
     var timer = setInterval(function(){
-      iteration += 10;
-      //console.log(iteration)
+      lim += 10;
       i++;
       if(i >= anomalies.length / 10){ 
         clearInterval(timer);
+      } else if (lim < 0){
+        clearInterval(timer);
       }
     }, 100);
-}
-
-function clear_graph(){
-    iteration = 0;
-}
+  }
+  
+  // clear graph
+  function clear_graph(){
+    noLoop();
+    lim = -20;
+  }
 
 // setup function
 function setup(){
@@ -607,7 +623,7 @@ function draw(){
     stroke(0);
     strokeWeight(1);
   
-    for (var i = 0; i < iteration; i+=10){
+    for (var i = 0; i < lim; i+=10){
   
       force = p5.Vector.sub(bob, anchor);
   
