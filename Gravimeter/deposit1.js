@@ -437,9 +437,6 @@ function setupTerrain(){
             else if ((i <= (Math.floor(windowHeight/1.50))+300) && (j == (windowWidth/2)-380)){
                 colors[i][j] = new colorObject(134, 94, 77);
             }
-            else if ((i <= (Math.floor(windowHeight/1.50))+310) && (j == (windowWidth/2)-380)){
-                colors[i][j] = new colorObject(201, 192, 187);
-            }
             else{
                 if (j < (windowWidth/2)-370){
                     colors[i][j] = new colorObject(134, 94, 77);
@@ -657,7 +654,6 @@ function draw(){
       
       let x = count;
       let y = anomalies[i] * Math.pow(10, 5)*10;
-      console.log(y/10);
       line(px, py-50, x, y-50);
       px = x;
       py = y;
