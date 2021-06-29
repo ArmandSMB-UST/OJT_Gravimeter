@@ -435,11 +435,12 @@ function generateTerrain(){
           }
           // basalt
           else if (colors[i][j].r == 128){
-              matrixValues[i][j] = new terrainObject(getRandomArbitrary(2700, 3200), j, i, 10); 
+              matrixValues[i][j] = new terrainObject(getRandomArbitrary(2700, 3200), j, i, 10);
           }
           // granite
           else{
               matrixValues[i][j] = new terrainObject(getRandomArbitrary(2520, 2750), j, i, 10);
+              //matrixValues[i][j] = new terrainObject(getRandomArbitrary(2520, 2530), j, i, 10);
           }
       }
   }
@@ -546,21 +547,21 @@ function draw(){
   line(100, 450, 100, 150);
   line(630, 450, 630, 150);
   
-  // x-axis 40 
+  // x-axis 70 
   line(100, 450, 630, 450);
-  text('40.0', 67, 455);
-
-  // x-axis 50
-  line(100, 350, 630, 350);
-  text('50.0', 67, 355);
+  text('70.0', 67, 455);
 
   // x-axis 60
-  line(100, 250, 630, 250);
-  text('60.0', 67, 255);
+  line(100, 350, 630, 350);
+  text('60.0', 67, 355);
 
-  // x-axis 70
+  // x-axis 50
+  line(100, 250, 630, 250);
+  text('50.0', 67, 255);
+
+  // x-axis 40
   line(100, 150, 630, 150);
-  text('70.0', 67, 155);
+  text('40.0', 67, 155);
 
   // y-axis label
   textSize(20);
@@ -582,7 +583,7 @@ function draw(){
   
   let count = 100;
   let px = count;
-  let py = anomalies[100] * Math.pow(10, 5) + 250;
+  let py = anomalies[0] * Math.pow(10, 5)+500;
 
   stroke(0);
   strokeWeight(1);
@@ -620,9 +621,8 @@ function draw(){
     gravity_total_vector.y = gravity_total_scaled;
     
     let x = count;
-    let y = anomalies[i] * Math.pow(10, 5)*10 - 270;
-    console.log(y/10);
-    line(px, py, x, y);
+    let y = anomalies[i] * Math.pow(10, 5)*10;
+    line(px, py-250, x, y-250);
     px = x;
     py = y;
     count += 2.765;

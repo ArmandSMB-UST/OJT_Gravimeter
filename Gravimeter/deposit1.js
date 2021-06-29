@@ -473,7 +473,7 @@ function generateTerrain(){
         matrixValues[i] = []
         for (var j = 0; j < windowWidth; j+=10){
             if (colors[i][j].r == 134){
-                matrixValues[i][j] = new terrainObject(getRandomArbitrary(1280,1380), j, i, 10);
+                matrixValues[i][j] = new terrainObject(getRandomArbitrary(1280, 1380), j, i, 10);
             }
             else{
                 matrixValues[i][j] = new terrainObject(getRandomArbitrary(1980, 2170), j, i, 10);
@@ -618,7 +618,7 @@ function draw(){
 
     let count = 100;
     let px = count;
-    let py = anomalies[0] * Math.pow(10, 5) + 250;
+    let py = anomalies[0] * Math.pow(10, 5)+250;
   
     stroke(0);
     strokeWeight(1);
@@ -657,8 +657,8 @@ function draw(){
       
       let x = count;
       let y = anomalies[i] * Math.pow(10, 5)*10;
-      //console.log(y/10);
-      line(px, py, x, y);
+      console.log(y/10);
+      line(px, py-50, x, y-50);
       px = x;
       py = y;
       count += 2.765;
