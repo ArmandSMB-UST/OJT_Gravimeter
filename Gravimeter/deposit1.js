@@ -607,7 +607,7 @@ function draw(){
 
   // graph title
   textSize(20);
-  text('Mineral Deposit Subduction Zone', 210, 505);
+  text('Mineral Deposit Gravity Profile', 220, 505);
   
     // texts
     textSize(30);

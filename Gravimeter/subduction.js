@@ -440,7 +440,6 @@ function generateTerrain(){
           // granite
           else{
               matrixValues[i][j] = new terrainObject(getRandomArbitrary(2520, 2750), j, i, 10);
-              //matrixValues[i][j] = new terrainObject(getRandomArbitrary(2520, 2530), j, i, 10);
           }
       }
   }
