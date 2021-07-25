@@ -21,3 +21,26 @@ canvas {
   width: 50vh;
   height: 20vh;
 }
+
+#experiment-1-layout-columns {
+  justify-content: space-between;
+  border: 1px solid red;
+}
+
+#left-part {
+  padding: 0;
+  margin: 0;
+  border: 1px solid violet;
+}
+
+#middle-part {
+  border: 1px solid green;
+}
+
+#right-part {
+  border: 1px solid orange;
+}
+
+.btn-group-vertical {
+  max-width: 10vh;
+}
