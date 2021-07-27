@@ -1,0 +1,14 @@
+#bg-img {
+  background-image: url('/images/welcome-screen.png'); 
+  height: 100vh;
+}
+
+#change-page-btn {
+  position: relative;
+  top: 20%;
+}
+
+#start-btn {
+  width: 50vh;
+  height: 20vh;
+}

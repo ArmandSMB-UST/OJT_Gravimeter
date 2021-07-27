@@ -1,0 +1,33 @@
+#experiment-1-layout-columns {
+  justify-content: space-between;
+  border: 1px solid red;
+}
+
+#left-part {
+  padding: 0;
+  margin: 0;
+  border: 1px solid violet;
+}
+
+#middle-part {
+  border: 1px solid green;
+}
+
+#right-part {
+  border: 1px solid orange;
+}
+
+.btn-group-vertical {
+  max-width: 10vh;
+}
+
+#left-panel-bg {
+  background-image: url('/images/left-panel-background.png');
+  height: 30vh;
+}
+
+#nav-buttons {
+  padding-top: 0%;
+  padding-right: 0%;
+
+}
