@@ -22,11 +22,25 @@
 }
 
 #left-panel-bg {
-  background-image: url('/images/left-panel-background.png');
+  background-image: url('../images/left-panel-background.png');
   height: 30vh;
 }
 
-#nav-buttons {
-  padding-top: 0%;
-  padding-right: 0%;
+#button-container {
+  padding-top: 10%;
+  padding-bottom: 10%;
 }
+
+#left-panel-text {
+  padding-top: 2%;
+  padding-left: 4%;
+  font-size: 1.5vw;
+}
+
+#sketch-holder {
+  padding-top: 0%;
+  padding-right: 30%;
+  overflow: hidden;
+}
+
+
