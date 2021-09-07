@@ -1,16 +1,10 @@
 #experiment-1-layout-columns {
   justify-content: space-between;
-  border: 1px solid red;
 }
 
-#left-part {
+#left-part-java {
   padding: 0;
   margin: 0;
-  border: 1px solid violet;
-}
-
-#middle-part {
-  border: 1px solid green;
 }
 
 #right-part {
@@ -21,26 +15,22 @@
   max-width: 10vh;
 }
 
-#left-panel-bg {
-  background-image: url('../images/left-panel-background.png');
-  height: 30vh;
-}
-
 #button-container {
   padding-top: 10%;
   padding-bottom: 10%;
 }
 
-#left-panel-text {
-  padding-top: 2%;
-  padding-left: 4%;
-  font-size: 1.5vw;
-}
-
 #sketch-holder {
-  padding-top: 0%;
-  padding-right: 30%;
+  margin: 0;
+  padding: 0;
   overflow: hidden;
 }
 
-
+#ground {
+  position: fixed;
+  bottom: 0;
+  border: 1px solid red;
+  background-color: #A65F33;
+  width: 100%;
+  height: 3vh;
+}

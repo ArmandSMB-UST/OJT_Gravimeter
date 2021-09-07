@@ -1,254 +1,190 @@
-// Sketch for the Experiment 1 Page
+let canvas, canvasDiv, widthOfCanvas, heightOfCanvas;                                       //canvas related
+let imgLeftPanelBackground, imgSpringBase, imgSpring, imgSpringWeight, imgVolumeInput;      //images
+let densitySlider, density, volumeInput, volume;                                            //interactive inputs
+volume = 0;
+let logoButton, volumeInputButton;                                                          //buttons
+let stringAtSpringBase, gravityAnomalyPrint, gravityAnomalyString;                          //text
+let charWidth;
 
-// -------------------------------variables used-------------------------------
+/*-------------------------------variables used-------------------------------*/
 
-// weight
+/* --- Spring Related Variables --- */
+/* weight */
 let bob;
-// bob reference point
+/* bob reference point */
 let anchor;
+/* distance between the anchor and the bob */
+let restLength;
+/* spring constant in kgs^{-2} */
+const k = 0.2;
+let springLength, measuredSpringLength;
+springLength = 0; //in pixels
+measuredSpringLength = 0;
 
-// --- Motion Variables ---
-
-// bob velocity
+/* --- Motion Variables --- */
+/* bob velocity */
 let velocity;
-// force vector
+/* force vector */
 let force;
-// displacement
+/* displacement */
 let displacement;
 
-// --- Spring Related Constants ---
-
-// distance between the anchor and the bob
-const REST_LENGTH = 200.965;
-// spring constant in kgs^{-2}
-const K = 0.2;
-
-// --- Gravity Related Variables ---
-
-// gravity vector
+/* --- Gravity Related Variables --- */
+/* gravity vector */
 let gravity;
-// gravitational constant in m^3/kgs^{-2}
+//gravitational constant in m^3/kgs^{-2}
 const G = 6.67384 * Math.pow(10, -11);
-// gravitational anomaly
-let anomaly;
-// total vector
-let gravity_total_vector;
-// gravity total
-let gravity_total = 0;
-// scaled values
-let anomaly_scaled;
-let gravity_total_scaled;
+/* gravitational anomaly */
+let gravityAnomaly;
+/* total vector */
+let gravityTotalVector;
+/* gravity total */
+let gravityTotal = 0;
+/* scaled values */ //to relate pixels and real life values
+let gravityAnomalyScaled;
+let gravityTotalScaled;
 
-// --- Other Variables ---
+function readImages(){
+    imgLeftPanelBackground = loadImage('/images/left-panel-background.png');
+    imgSpringBase = loadImage('/images/spring-base.png');
+    imgSpring = loadImage('/images/spring.png');
+    imgSpringWeight = loadImage('/images/spring-weight.png');
+    imgVolumeInput = loadImage('images/volume-input.png');
+}
+function addLogoButton(){
+    logoButton = createImg('/images/logo.png');
+    logoButton.position(0, 0);
+    logoButton.style('width', Wpercent(33.333)+'px');
+    logoButton.style('height', Hpercent(15)+'px');
+    function changePageToWelcomeScreen() {
+        location.replace("index.html");
+    }
+    logoButton.mousePressed(changePageToWelcomeScreen);
+}
+function addVolumeInput(){
+    volumeInput = createInput();
+    volumeInput.position(22, Hpercent(30));
+    volumeInput.style('width', Wpercent(15)+'px');
+    volumeInput.style('height', Hpercent(5)+'px');
+    volumeInputButton = createButton('Input');
+    volumeInputButton.position(volumeInput.x + Wpercent(15), Hpercent(30));
+    volumeInputButton.style('width', Wpercent(7)+'px');
+    volumeInputButton.style('height', Hpercent(5)+'px');
+    function changeVolume(){
+        volume = Number(volumeInput.value());
+        volumeInput.value('');
+        densitySlider.value(0);
+        density = 0;
+    }
+    volumeInputButton.mousePressed(changeVolume);
+}
+function addDensitySlider(){
+    densitySlider = createSlider(1000, 5000, 0, 5);
+    densitySlider.position(22, Hpercent(45));
+    densitySlider.style('width', Wpercent(30)+'px');
+}
+function makeVectors(){
+    bob = createVector(Wpercent(66.667), 0);
+    anchor = createVector(Wpercent(66.667), 0);
+    velocity = createVector(0, 0);
+    gravity = createVector(0, 9.80665);
+    gravityTotalVector = createVector(0, gravityTotal);
+}
+function windowResized() {
+    //canvas adjust
+    widthOfCanvas = canvasDiv.offsetWidth;
+    heightOfCanvas = windowHeight*0.97;
+    resizeCanvas(widthOfCanvas, heightOfCanvas);
 
-// densities in kgm^{-3}
-let density_basalt = 3000;
-let density_coal = 1300;
-let density_slider;
-// input for volume
-let input;
-// volume in m^3
-let volume = 0;
-// button for input confirmation
-let button;
-// image variables
-let img_spring, img_sphereWeight, img_springBase, img_leftPanel, img_logo;
-// ----------------------------------------------------------------------------
+    //logo button adjust
+    logoButton.remove();
+    addLogoButton();
 
-// // function for changing the volume
-// function changeVolume(){
-//   volume = Number(input.value());
-//   input.value('');
-//   density_slider.value(0);
-// }
+    //density slider adjust
+    densitySlider.remove();
+    addDensitySlider();
 
-// // function for drawing the max stretch of the spring
-// function drawLine(x1, x2, y){
-//   while(x1 < x2){
-//     point(x1, y);
-//     x1 += 10;
-//   }
-// }
-
-// // change page to subduction zone
-// function changePageSZ() {
-//   location.replace("subduction.html");
-// }
-
-// // change page to soil deposit 1
-// function changePageSD1(){
-//   location.replace("deposit1.html");
-// }
-
-// // change page to gravimeter
-// function changePageGM(){
-//   location.replace("gravimeter.html");
-// }
-
-// // change page to welcome
-// function changePageW(){
-//   location.replace("index.html");
-// }
-
-// // function for reading the images
-// function readImages(){
-//   img_spring = loadImage('vector_items/spring.png');
-//   img_sphereWeight = loadImage('vector_items/sphere_weight.png');
-//   img_springBase = loadImage('vector_items/spring_base.png');
-//   img_leftPanel = loadImage('vector_items/left_panel.png');
-//   img_volInput = loadImage('vector_items/volume_input.png')
-// }
-
-// // function for creating the vectors
-// function makeVectors(){
-//   bob = createVector(windowWidth/2, 0);
-//   anchor = createVector(windowWidth/2, 0);
-//   velocity = createVector(0, 0);
-//   gravity = createVector(0, 9.80665);
-//   gravity_total_vector = createVector(0, gravity_total);
-// }
-
-// function for adding the sliders
-function addSliders(){
-  density_slider = createSlider(density_coal, density_basalt, 0, 5); //assume this is in mGal
-  density_slider.position(20, 240);
-  density_slider.style('width', '250px');
+    //volume input adjust
+    volumeInput.remove();
+    volumeInputButton.remove();
+    addVolumeInput();
+}
+function Wpercent(desiredPercentage) {
+    var convertedValue = (desiredPercentage/100)*widthOfCanvas;
+    return convertedValue;
+}
+function Hpercent(desiredPercentage) {
+    var convertedValue = (desiredPercentage/100)*heightOfCanvas;
+    return convertedValue;
 }
 
-// // function for adding the input box
-// function addInput(){
-//   input = createInput();
-//   input.position(20, 340);
-//   input.style('width', '204px');
-//   input.style('height', '45px');
-// }
-
-// // function for adding the buttons
-// function addButtons(){
-
-//   // input button
-//   button = createButton('Input');
-//   button.position(input.x + input.width + 11, 338);
-//   button.style('width', '55px');
-//   button.style('height', '55px');
-//   button.mousePressed(changeVolume);
-
-//   // subduction zone button
-//   button_link1 = createImg('vector_items/activity_2.png');
-//   button_link1.position(15*windowWidth/16, 3*windowHeight/8);
-//   button_link1.style('width', '100px');
-//   button_link1.style('height', '100px');
-//   button_link1.mousePressed(changePageSZ);
-
-//   // gravimeter button
-//   button_link2 = createImg('vector_items/activity_1.png');
-//   button_link2.position(15*windowWidth/16, 1*windowHeight/4);
-//   button_link2.style('width', '100px');
-//   button_link2.style('height', '100px');
-//   button_link2.mousePressed(changePageGM);
-
-//   // soil deposit 1 button
-//   button_link3 = createImg('vector_items/activity_3.png');
-//   button_link3.position(15*windowWidth/16, 5*windowHeight/10);
-//   button_link3.style('width', '100px');
-//   button_link3.style('height', '100px');
-//   button_link3.mousePressed(changePageSD1);
-
-//   button_link4 = createImg('vector_items/logo.png');
-//   button_link4.position(5, -1);
-//   button_link4.style('width', '400px');
-//   button_link4.style('height', '120px');
-//   button_link4.mousePressed(changePageW);
-// }
-
-function drawCircle() {
-  document.getElementById("hello").innerHTML = "hi";
-}
-
-// setup function
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  // readImages();
-  // makeVectors();
-  // addSliders();
-  // addInput();
-  // addButtons();
+    //canvas setup
+    canvasDiv = document.getElementById('left-part-java');
+    widthOfCanvas = canvasDiv.offsetWidth;
+    heightOfCanvas = windowHeight*0.97;
+    canvas = createCanvas(widthOfCanvas, heightOfCanvas);
+    canvas.parent('left-part-java');
+    readImages();
+    addLogoButton();
+    addDensitySlider();
+    addVolumeInput();
+    makeVectors();
 }
 
-// draw function
 function draw() {
-  
-  // background(237, 248, 250);
-  // textSize(30);
-  // fill(0);
-  // circle(0, 0, 300);
+    background(235, 248, 250);
+    textSize(Wpercent(100)/47.967);
+    
+    //images
+    image(imgLeftPanelBackground, 0, Hpercent(15), Wpercent(33.333), Hpercent(40));
+    image(imgSpringBase, Wpercent(66.667)-Wpercent(28)/2, 0, Wpercent(28), Hpercent(6));
+    image(imgSpring, Wpercent(66.67)-Wpercent(5)/2, Hpercent(6), Wpercent(5), springLength);
+    image(imgSpringWeight, Wpercent(66.67)-Wpercent(6.5)/2, (0.80*bob.y)+Hpercent(5.5), Wpercent(6.5), Hpercent(10));
 
-  div = createDiv(
-    `<div class="container-fluid">
-      <a href="index.html" style="color:red; text-align:center;"><h4>Hello</h4></a>
-    </div>`
-  );
+    //texts
+    text(gravityAnomalyString, 10, Hpercent(20));
+    text('Volume: ' + String(volume) + ' m³', 10, Hpercent(25));
+    text('Density: '+ String(density)+ ' kgm⁻³', 10, Hpercent(40));
+    stringAtSpringBase = 'Spring length: ' + measuredSpringLength.toPrecision(4) + ' mm';
+    charWidth = textWidth(stringAtSpringBase);          
+    text(stringAtSpringBase, Wpercent(66.667)-charWidth/2, Hpercent(4));
 
-  // let div = createDiv(
-  //   circle(0, 0, 300)
-  // );
-  div.position(50, 50);
-  // div.style('padding: 10%');
-  // // length in pixels
-  // spring_length = bob.y - anchor.y;
+    //defined variables
+    var restLength = Hpercent(20);
+    density = densitySlider.value();
+    measuredSpringLength = (0.005 + (gravityAnomaly/k))*pow(10,3);
+    gravityAnomaly = density * volume * G;
 
-  // // length in mm
-  // actual_length = spring_length/50;
+    //Motion equations
+    // vector to sphere weight from spring base
+    force = p5.Vector.sub(bob, anchor);
+    displacement = force.mag() - restLength;
+    springLength = (restLength + displacement)*0.80;
+    force.normalize();
+    // spring force -> F = -kΔs
+    force.mult(-1 * k * displacement);
+    
+    // scaled values (actual length and pixels)
+    gravityAnomalyScaled = gravityAnomaly*pow(10,5);
+    gravityTotalScaled = gravity.y + gravityAnomalyScaled;
 
-  // // images
-  // image(img_leftPanel, 0, 130, 400, 290);
-  // image(img_spring, windowWidth/2 - 27, 50, 54, spring_length-85);
-  // image(img_sphereWeight, windowWidth/2 - 39, bob.y-35, 78, 70);
-  // image(img_springBase, windowWidth/2 - 195, 0, 390, 52);
-  // image(img_volInput, 15, 336, 278, 60)
+    // moves the bob -> assumption: F = m*a (if m == 1kg)
+    velocity.add(force);
+    velocity.add(gravityTotalVector);
 
-  // texts
-  // text('Δg:\t' + (anomaly*pow(10,5)).toFixed(0) + ' mGal', 20, 170);
-  // text('Density:', density_slider.x * -11.5 + density_slider.width, 220);
-  // text(String(density_slider.value()) + ' kgm⁻³', density_slider.x * -5 + density_slider.width, 220);
-  // text('Volume: ', density_slider.x * -11.5 + density_slider.width, 320);
-  // text(String(volume) + " m³", density_slider.x * -5 + density_slider.width, 320);
-  // text('Spring length: ' + actual_length.toFixed(3) + ' mm', 790, 35);
-  
-  // // max stretch
-  // strokeWeight(2);
-  // drawLine(windowWidth / 3, 2*windowWidth / 3, 750);
+    if (gravityAnomalyScaled <= 100 && measuredSpringLength <= 10){
+        bob.add(velocity);
+        gravityAnomalyPrint = (gravityAnomaly*pow(10,5)).toPrecision(4);
+        gravityAnomalyString = 'Δg: ' + gravityAnomalyPrint + ' mGal';
+    } else {
+        gravityAnomalyString = 'Δg: Out of Range';
+        measuredSpringLength = 10;
+    }
 
-  // // vector from A to B
-  // force = p5.Vector.sub(bob, anchor);
-  
-  // // displacement - change in length
-  // displacement = force.mag() - restLength;
-  
-  // // normalize the force vector
-  // force.normalize();
-  
-  // // spring force (F = -k(s - s0))
-  // force.mult(-1 * k * displacement);
+    // damping
+    velocity.mult(0.38);
 
-  // // computes the g anomaly
-  // anomaly = (density_slider.value() * volume) * G;
-
-  // // scaled values (actual length and pixels)
-  // anomaly_scaled = 100000 * anomaly;
-  // gravity_total_scaled = gravity.y + anomaly_scaled;
-
-  // // moves the bob -> assumption: F = m*a (if m == 1kg)
-  // velocity.add(force);
-  // velocity.add(gravity_total_vector);
-
-  // if (anomaly_scaled <= 100 && actual_length <= 15){
-  //   bob.add(velocity);
-  // }
-
-  // // damping
-  // velocity.mult(0.38);
-
-  // // adjust gravity total
-  // gravity_total_vector.y = gravity_total_scaled;
-} 
+    // adjust gravity total
+    gravityTotalVector.y = gravityTotalScaled;
+}

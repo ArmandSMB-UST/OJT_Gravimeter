@@ -17,49 +17,36 @@
         <script src="libraries/p5.min.js"></script>
         <script src="libraries/p5.sound.min.js"></script>
         <!-- P5.JS SCRIPT -->
-        <script src="spring.js"></script>
+        <script src="experiment-1.js"></script>
     </head>
     <body style="background-color: #EDF8FA;">
         <div class="container-fluid" id="experiment-1-layout-columns">
-            <div class="row">
-                <div class="col-3" id="left-part">
-                    <div class="left-part-logo">
-                        <a href="index.html">
-                            <img class="img-fluid" id="logo" src="images/logo.png" alt="Program logo">
-                        </a>
-                    </div>
-                    <div class="bg-image img-fluid" id="left-panel-bg">
-                        <h1 id="left-panel-text">
-                            Δg:
-                        </h1>
-                        <h1 id="left-panel-text">
-                            Density:
-                        </h1>
-                        <h1 id="left-panel-text">
-                            Volume:
-                        </h1>
-                    </div>
-                </div>
-        
-                <div class="col-6" id="middle-part">
-                    <div class="img-fluid float-end" id="sketch-holder"></div>
-                </div>
-        
-                <div class="col-3" id="right-part">
-                    <div class="float-end" id="button-container">
-                        <div class="btn-group-vertical" role="group" id="nav-buttons">
-                            <a href="gravimeter.html">
-                                <img src="images/experiment-1-icon.png" class="img-fluid" id="experiment-icon-btn" alt="Experiment 1 button">
-                            </a>
-                            <a href="#">
-                                <img src="images/experiment-2-icon.png" class="img-fluid" id="experiment-icon-btn" alt="Experiment 2 button">
-                            </a>
-                            <a href="#">
-                                <img src="images/experiment-3-icon.png" class="img-fluid" id="experiment-icon-btn" alt="Experiment 3 button">
-                            </a>
-                        </div>
-                    </div>
+          <div class="row">
+
+            <div class="col-9" id="left-part-java">
+              <!-- js canvas -->
+              <div class="img-fluid" id="sketch-holder"></div>
+            </div>
+            
+            <div class="col-3" id="right-part">
+              <div class="float-end" id="button-container">
+                <div class="btn-group-vertical" role="group" id="nav-buttons">
+                <a href="gravimeter.html">
+                  <img src="images/experiment-1-icon.png" class="img-fluid" id="experiment-icon-btn" alt="Experiment 1 button">
+                </a>
+                  <a href="#">
+                  <img src="images/experiment-2-icon.png" class="img-fluid" id="experiment-icon-btn" alt="Experiment 2 button">
+                </a>
+                <a href="#">
+                  <img src="images/experiment-3-icon.png" class="img-fluid" id="experiment-icon-btn" alt="Experiment 3 button">
+                </a>
                 </div>
               </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="bg-primary" id = "ground"></div>
+          </div>
+        </div>
     </body>
 </html>
