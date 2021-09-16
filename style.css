@@ -6,3 +6,29 @@ html, body {
 canvas {
   display: block;
 }
+
+#experiment-layout-columns {
+  justify-content: space-between;
+}
+
+#left-part-java {
+  padding: 0;
+  margin: 0;
+}
+
+#button-container {
+  padding-top: 50%;
+}
+
+#experiment-icon-btn {
+  display: flex;
+  height: 12vh;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#sketch-holder {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}

@@ -49,7 +49,6 @@ function readImages(){
     imgSpringBase = loadImage('/images/spring-base.png');
     imgSpring = loadImage('/images/spring.png');
     imgSpringWeight = loadImage('/images/spring-weight.png');
-    imgVolumeInput = loadImage('images/volume-input.png');
 }
 function addLogoButton(){
     logoButton = createImg('/images/logo.png');
@@ -66,9 +65,9 @@ function addVolumeInput(){
     volumeInput.position(22, Hpercent(30));
     volumeInput.style('width', Wpercent(15)+'px');
     volumeInput.style('height', Hpercent(5)+'px');
-    volumeInputButton = createButton('Input');
+    volumeInputButton = createImg('images/volume-input.png');
     volumeInputButton.position(volumeInput.x + Wpercent(15), Hpercent(30));
-    volumeInputButton.style('width', Wpercent(7)+'px');
+    volumeInputButton.style('width', Wpercent(6)+'px');
     volumeInputButton.style('height', Hpercent(5)+'px');
     function changeVolume(){
         volume = Number(volumeInput.value());
@@ -93,7 +92,7 @@ function makeVectors(){
 function windowResized() {
     //canvas adjust
     widthOfCanvas = canvasDiv.offsetWidth;
-    heightOfCanvas = windowHeight*0.97;
+    heightOfCanvas = windowHeight*0.96;
     resizeCanvas(widthOfCanvas, heightOfCanvas);
 
     //logo button adjust
@@ -122,7 +121,7 @@ function setup() {
     //canvas setup
     canvasDiv = document.getElementById('left-part-java');
     widthOfCanvas = canvasDiv.offsetWidth;
-    heightOfCanvas = windowHeight*0.97;
+    heightOfCanvas = windowHeight*0.96;
     canvas = createCanvas(widthOfCanvas, heightOfCanvas);
     canvas.parent('left-part-java');
     readImages();
@@ -140,13 +139,13 @@ function draw() {
     image(imgLeftPanelBackground, 0, Hpercent(15), Wpercent(33.333), Hpercent(40));
     image(imgSpringBase, Wpercent(66.667)-Wpercent(28)/2, 0, Wpercent(28), Hpercent(6));
     image(imgSpring, Wpercent(66.67)-Wpercent(5)/2, Hpercent(6), Wpercent(5), springLength);
-    image(imgSpringWeight, Wpercent(66.67)-Wpercent(6.5)/2, (0.80*bob.y)+Hpercent(5.5), Wpercent(6.5), Hpercent(10));
+    image(imgSpringWeight, Wpercent(66.67)-Wpercent(6.5)/2, springLength+Hpercent(5.5), Wpercent(6.5), Hpercent(10));
 
     //texts
     text(gravityAnomalyString, 10, Hpercent(20));
     text('Volume: ' + String(volume) + ' m³', 10, Hpercent(25));
     text('Density: '+ String(density)+ ' kgm⁻³', 10, Hpercent(40));
-    stringAtSpringBase = 'Spring length: ' + measuredSpringLength.toPrecision(4) + ' mm';
+    stringAtSpringBase = 'Spring length: ' + measuredSpringLength.toPrecision(4) + ' μm';
     charWidth = textWidth(stringAtSpringBase);          
     text(stringAtSpringBase, Wpercent(66.667)-charWidth/2, Hpercent(4));
 
