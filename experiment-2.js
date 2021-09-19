@@ -74,7 +74,7 @@ function windowResized() {
     logoButton.remove();
     button_subtract.remove(), button_add.remove(), button_graph.remove(), button_clearGraph.remove();
     addLogoButton();
-    addButtons_draw();
+    addButtonsDraw();
 }
 function Wpercent(desiredPercentage) {
     var convertedValue = (desiredPercentage/100)*widthOfCanvas;
@@ -98,9 +98,19 @@ function colorObject(r, g, b){
     this.b = b;
 }
 // function for getting a randomm number from min to max
-function getRandomArbitrary(min, max) {
-    return Math.random() * (max - min) + min;
+function gaussianRand() {
+  var rand = 0;
+
+  for (var i = 0; i < 6; i += 1) {
+    rand += Math.random();
+  }
+
+  return rand / 6;
 }
+function gaussianRandom(start, end) {
+  return Math.floor(start + gaussianRand() * (end - start + 1));
+}
+
 // setup terrain function
 function setupTerrain(){
   for (var i = Math.floor(windowHeight/1.50); i < windowHeight; i+=10){
@@ -336,11 +346,11 @@ function generateTerrain(){
         }
         // basalt
         else if (colors[i][j].r == 128){
-          densityArray[i][j] = new terrainObject(getRandomArbitrary(2700, 3200), j, i, 10);
+          densityArray[i][j] = new terrainObject(gaussianRandom(2700, 3200), j, i, 10);
         }
         // granite
         else{
-          densityArray[i][j] = new terrainObject(getRandomArbitrary(2520, 2750), j, i, 10);
+          densityArray[i][j] = new terrainObject(gaussianRandom(2520, 2750), j, i, 10);
         }
       }
   }
@@ -357,29 +367,29 @@ function drawTerrain(){
   }
 }
 // function for button for graph
-function addButtons_draw(){
+function addButtonsDraw(){
     // Decrement button
-    button_subtract = createButton('<');
+    button_subtract = createImg('/images/decrease-button.png');
     button_subtract.position(Wpercent(3.2), Hpercent(62.5));
     button_subtract.style('width', Wpercent(1.7) + 'px');
     button_subtract.style('height', Hpercent(3.9) + 'px');
     button_subtract.mousePressed(subtract);
 
     // Increment button
-    button_add = createButton('>');
+    button_add = createImg('/images/increase-button.png');
     button_add.position(Wpercent(10.5), Hpercent(62.5));
     button_add.style('width', Wpercent(1.7) + 'px');
     button_add.style('height', Hpercent(3.9) + 'px');
     button_add.mousePressed(add); 
       
     // Graph button
-    button_graph = createButton("Graph");
+    button_graph = createImg('/images/graph-button.png');
     button_graph.position(Wpercent(5), Hpercent(62.5));
     button_graph.style('width', Wpercent(5.4) + 'px');
     button_graph.style('height', Hpercent(3.9) + 'px');
     button_graph.mousePressed(add_continuous);
   
-    button_clearGraph = createButton("Clear");
+    button_clearGraph = createImg('/images/clear-button.png');
     button_clearGraph.position(Wpercent(37.44), Hpercent(62.5));
     button_clearGraph.style('width', Wpercent(5.4) + 'px');
     button_clearGraph.style('height', Hpercent(3.9) + 'px');
@@ -477,7 +487,7 @@ function setup() {
   makeVectors();
   setupTerrain();
   generateTerrain();
-  addButtons_draw();
+  addButtonsDraw();
 }
 
 function draw() {
@@ -540,6 +550,6 @@ function draw() {
     line(px, py-250, x, y-250);
     px = x;
     py = y;
-    count += 2.765;
+    count += 2.925;
   }
 }
