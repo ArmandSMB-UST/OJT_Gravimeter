@@ -1,11 +1,8 @@
-let canvas, canvasDiv, widthOfCanvas, heightOfCanvas;                                       //canvas related
-let widthOfCanvasInitial, heightOfCanvasInitial;
-let imgLeftPanelBackground, imgSpringBase, imgSpring, imgSpringWeight;                      //images
-let density, volume;                                                                        //interactive inputs
-let logoButton;                                                                             //buttons
-let stringAtSpringBase, gravityAnomalyPrint, gravityAnomalyString;                          //text
-let charWidth;
-
+let canvas, canvasDiv, widthOfCanvas, heightOfCanvas, widthOfCanvasInitial, heightOfCanvasInitial; //canvas related
+let imgLeftPanelBackground, imgSpringBase, imgSpring, imgSpringWeight;                             //images
+let density, volume;                                                                               //interactive inputs
+let logoButton;                                                                                    //buttons
+let stringAtSpringBase, gravityAnomalyPrint, gravityAnomalyString, charWidth;                      //text
 // colors array
 var colors = [];
 // terrain density array
@@ -14,11 +11,10 @@ var densityArray = [];
 var anomaliesArray = [];
 // volume per cell
 volume = 16;
-
+var j;
 let lim = 0;
 
 /*-------------------------------variables used-------------------------------*/
-
 /* --- Spring Related Variables --- */
 let bob;
 let anchor;
@@ -65,17 +61,6 @@ function makeVectors(){
     gravity = createVector(0, 9.80665);
     gravityTotalVector = createVector(0, gravityTotal);
 }
-function windowResized() {
-    //canvas adjust
-    widthOfCanvas = canvasDiv.offsetWidth;
-    heightOfCanvas = windowHeight*0.80;
-    resizeCanvas(widthOfCanvas, heightOfCanvas);
-    //button adjust
-    logoButton.remove();
-    button_subtract.remove(), button_add.remove(), button_graph.remove(), button_clearGraph.remove();
-    addLogoButton();
-    addButtonsDraw();
-}
 function Wpercent(desiredPercentage) {
     var convertedValue = (desiredPercentage/100)*widthOfCanvas;
     return convertedValue;
@@ -110,7 +95,6 @@ function gaussianRand() {
 function gaussianRandom(start, end) {
   return Math.floor(start + gaussianRand() * (end - start + 1));
 }
-
 // setup terrain function
 function setupTerrain(){
   for (var i = Math.floor(windowHeight/1.50); i < windowHeight; i+=10){
@@ -368,188 +352,210 @@ function drawTerrain(){
 }
 // function for button for graph
 function addButtonsDraw(){
-    // Decrement button
-    button_subtract = createImg('/images/decrease-button.png');
-    button_subtract.position(Wpercent(3.2), Hpercent(62.5));
-    button_subtract.style('width', Wpercent(1.7) + 'px');
-    button_subtract.style('height', Hpercent(3.9) + 'px');
-    button_subtract.mousePressed(subtract);
-
-    // Increment button
-    button_add = createImg('/images/increase-button.png');
-    button_add.position(Wpercent(10.5), Hpercent(62.5));
-    button_add.style('width', Wpercent(1.7) + 'px');
-    button_add.style('height', Hpercent(3.9) + 'px');
-    button_add.mousePressed(add); 
-      
-    // Graph button
-    button_graph = createImg('/images/graph-button.png');
-    button_graph.position(Wpercent(5), Hpercent(62.5));
-    button_graph.style('width', Wpercent(5.4) + 'px');
-    button_graph.style('height', Hpercent(3.9) + 'px');
-    button_graph.mousePressed(add_continuous);
+  // Decrement button
+  buttonSub = createImg('/images/decrease-button.png');
+  buttonSub.position(Wpercent(3.2), Hpercent(61.5));
+  buttonSub.style('width', Wpercent(1.7) + 'px');
+  buttonSub.style('height', Hpercent(3.9) + 'px');
+  buttonSub.mousePressed(subtract);
   
-    button_clearGraph = createImg('/images/clear-button.png');
-    button_clearGraph.position(Wpercent(37.44), Hpercent(62.5));
-    button_clearGraph.style('width', Wpercent(5.4) + 'px');
-    button_clearGraph.style('height', Hpercent(3.9) + 'px');
-    button_clearGraph.mousePressed(clear_graph);
+  // Increment button
+  buttonAdd = createImg('/images/increase-button.png');
+  buttonAdd.position(Wpercent(10.5), Hpercent(61.5));
+  buttonAdd.style('width', Wpercent(1.7) + 'px');
+  buttonAdd.style('height', Hpercent(3.9) + 'px');
+  buttonAdd.mousePressed(add); 
+  
+  // Graph button
+  buttonGraph = createImg('/images/graph-button.png');
+  buttonGraph.position(Wpercent(5), Hpercent(61.5));
+  buttonGraph.style('width', Wpercent(5.4) + 'px');
+  buttonGraph.style('height', Hpercent(3.9) + 'px');
+  buttonGraph.mousePressed(addContinuous);
+
+  buttonClearGraph = createImg('/images/clear-button.png');
+  buttonClearGraph.position(Wpercent(37.44), Hpercent(61.5));
+  buttonClearGraph.style('width', Wpercent(5.4) + 'px');
+  buttonClearGraph.style('height', Hpercent(3.9) + 'px');
+  buttonClearGraph.mousePressed(clearGraph);
 }
 // add increment for graph
 function add(){
-  loop();
-  if(lim < 0){
-    lim += 10;
-  }
+loop();
+if(lim < 0){
   lim += 10;
+}
+lim += 10;
 }
 // subtract increment for graph
 function subtract(){
-  loop();
-  if(lim < 10){
-    return;
-  }
-  lim -= 10;
+loop();
+if(lim < 10){
+  return;
+}
+lim -= 10;
 }
 // graph
-function add_continuous(){
-  loop();
-  var i = 0;  
-  lim = 0;
-  var timer = setInterval(function(){
-    lim += 10;
-    i++;
-    if(i >= anomaliesArray.length / 10){ 
-      clearInterval(timer);
-    } else if (lim < 0){
-      clearInterval(timer);
-    }
-  }, 100);
+function addContinuous(){
+loop();
+var i = 0;  
+lim = 0;
+var timer = setInterval(function(){
+  lim += 10;
+  i++;
+  if(i >= anomaliesArray.length / 10){ 
+    clearInterval(timer);
+  } else if (lim < 0){
+    clearInterval(timer);
+  }
+}, 100);
 }
 // clear graph
-function clear_graph(){
-  noLoop();
-  lim = -20;
+function clearGraph(){
+noLoop();
+lim = -20;
 }
 function drawGraph() {
-  scale(widthOfCanvas/widthOfCanvasInitial, heightOfCanvas/heightOfCanvasInitial);
-  fill(0,0,0);
-  strokeWeight(0);
-  fill(255,255,255);
-  rect(10,130,630,350);
-  //lines
-  fill(0, 0, 0);
-  stroke(0);
-  strokeWeight(1);
-  textSize(16);
-
-  // y-axis
-  line(60, 450, 60, 150);
-  line(620, 450, 620, 150);
-  // x-axis 70 
-  line(60, 450, 620, 450);
-  text('70.0', 25, 455);
-  // x-axis 60
-  line(60, 350, 620, 350);
-  text('60.0', 25, 355);
-  // x-axis 50
-  line(60, 250, 620, 250);
-  text('50.0', 25, 255);
-  // x-axis 40
-  line(60, 150, 620, 150);
-  text('40.0', 25, 155);
-
-  // y-axis label
-  textSize(20);
-  text('Δg', 25, 290);
-  textSize(14);
-  text('(mGal)', 15, 320);
-
-  // x-axis label
-  textSize(20);
-  text('index (j)', 290, 470);
-
-  // graph title
-  textSize(20);
-  text('Subduction Zone Gravity Profile', 190, 505);
+strokeWeight(0);
+fill(255,255,255);
+rect(Wpercent(1.0), Hpercent(16.5), Wpercent(43.35), Hpercent(50));
+//lines
+fill(0, 0, 0);
+stroke(0);
+strokeWeight(1);
+textSize(widthOfCanvas/91.81);
+line(Wpercent(4.20), Hpercent(58.05), Wpercent(4.20),Hpercent(19.35));
+line(Wpercent(43), Hpercent(58.05), Wpercent(43), Hpercent(19.35));
+// y-axis 70 
+line(Wpercent(4.20), Hpercent(58.05), Wpercent(43), Hpercent(58.05));
+text('70.0', Wpercent(1.70), Hpercent(58.69));
+// y-axis 60
+line(Wpercent(4.20), Hpercent(45.15), Wpercent(43), Hpercent(45.15));
+text('60.0', Wpercent(1.70), Hpercent(45.79));
+// y-axis 50
+line(Wpercent(4.20), Hpercent(32.25), Wpercent(43), Hpercent(32.25));
+text('50.0', Wpercent(1.70), Hpercent(32.89));
+// y-axis 40
+line(Wpercent(4.20), Hpercent(19.35),Wpercent(43), Hpercent(19.35));
+text('40.0', Wpercent(1.70), Hpercent(19.99));
+// y-axis label
+textSize(widthOfCanvas/104.93);
+text('(mGal)', Wpercent(1.15), Hpercent(41.28));
+textSize(widthOfCanvas/73.45);
+text('Δg', Wpercent(1.72), Hpercent(37.41));
+// x-axis label
+xvar = 'index (j)';
+charWidth = textWidth(xvar);          
+text(xvar, Wpercent(23.6)-charWidth/2, Hpercent(60.63));
+// graph title
+graphTitle = 'Mineral Deposit Gravity Profile';
+charWidth = textWidth(graphTitle);
+text(graphTitle, Wpercent(23.6)-charWidth/2, Hpercent(65.14));
 }
-function setup() {
-  //canvas setup
-  canvasDiv = document.getElementById('left-part-java');
+function windowResized() {
+  //canvas adjust
   widthOfCanvas = canvasDiv.offsetWidth;
-  widthOfCanvasInitial = canvasDiv.offsetWidth;
   heightOfCanvas = windowHeight*0.80;
-  heightOfCanvasInitial = windowHeight*0.80;
-  canvas = createCanvas(widthOfCanvas, heightOfCanvas);
-  canvas.parent('left-part-java');
-  readImages();
+  resizeCanvas(widthOfCanvas, heightOfCanvas);
+  //button adjust
+  logoButton.remove();
+  buttonSub.remove(), buttonAdd.remove(), buttonGraph.remove(), buttonClearGraph.remove();
   addLogoButton();
-  makeVectors();
-  setupTerrain();
-  generateTerrain();
   addButtonsDraw();
 }
-
+function setup() {
+canvasDiv = document.getElementById('left-part-java');
+widthOfCanvas = canvasDiv.offsetWidth;
+widthOfCanvasInitial = canvasDiv.offsetWidth;
+heightOfCanvas = windowHeight*0.80;
+heightOfCanvasInitial = windowHeight*0.80;
+canvas = createCanvas(widthOfCanvas, heightOfCanvas);
+canvas.parent('left-part-java');
+readImages();
+addLogoButton();
+makeVectors();
+setupTerrain();
+generateTerrain();
+addButtonsDraw();
+}
+function dummyScale(widthOfCanvas, widthOfCanvasInitial, heightOfCanvas, heightOfCanvasInitial){
+var tempWidthScale = 0;
+var tempHeightScale = 0;
+if (widthOfCanvas <= widthOfCanvasInitial){
+  tempWidthScale = widthOfCanvas/widthOfCanvasInitial;
+}
+else{
+  tempWidthScale = widthOfCanvasInitial/widthOfCanvas;
+}
+if (heightOfCanvas <= heightOfCanvasInitial){
+  tempHeightScale = heightOfCanvas/heightOfCanvasInitial;
+}
+else{
+  tempWidthScale = heightOfCanvasInitial/heightOfCanvas;
+}
+let result = [tempWidthScale,tempHeightScale];
+return result;
+}
 function draw() {
-  background(235, 248, 250);
-  textSize(Wpercent(100)/47.967);
+background(235, 248, 250);
+textSize(Wpercent(100)/47.967);
+var restLength = Hpercent(20);
+
+//images
+image(imgLeftPanelBackground, 0, Hpercent(15), Wpercent(45.5), Hpercent(53));
+image(imgSpringBase, Wpercent(66.667)-Wpercent(28)/2, 0, Wpercent(28), Hpercent(6));
+image(imgSpring, Wpercent(66.67)-Wpercent(5)/2, Hpercent(6), Wpercent(5), springLength + 1);
+image(imgSpringWeight, Wpercent(66.67)-Wpercent(6.5)/2, springLength + Hpercent(5.5), Wpercent(6.5), Hpercent(10));
+
+//texts
+stringAtSpringBase = 'Spring length: ' + measuredSpringLength.toPrecision(4) + ' mm';
+charWidth = textWidth(stringAtSpringBase);          
+text(stringAtSpringBase, Wpercent(66.667)-charWidth/2, Hpercent(4));
+
+drawGraph();
+
+let count = 61;
+let px = count;
+let py = anomaliesArray[0] * Math.pow(10, 5)+500;
+
+stroke(0);
+strokeWeight(1);
+
+let result = dummyScale(widthOfCanvas, widthOfCanvasInitial, heightOfCanvas, heightOfCanvasInitial);
+scale(result[0], result[1]);
+for (var i = 0; i < lim; i += 10){
+  measuredSpringLength = (0.005 + (gravityAnomaly/k))*pow(10,3);
+
+  //Motion equations
+  force = p5.Vector.sub(bob, anchor);
+  displacement = force.mag() - restLength;
+  springLength = (restLength + displacement)*0.80;
+  force.normalize();
+  force.mult(-1 * k * displacement);
   
-  var restLength = Hpercent(20);
+  gravityAnomaly = anomaliesArray[i];
 
-  //images
-  image(imgLeftPanelBackground, 0, Hpercent(15), Wpercent(45.5), Hpercent(53));
-  image(imgSpringBase, Wpercent(66.667)-Wpercent(28)/2, 0, Wpercent(28), Hpercent(6));
-  image(imgSpring, Wpercent(66.67)-Wpercent(5)/2, Hpercent(6), Wpercent(5), springLength + 1);
-  image(imgSpringWeight, Wpercent(66.67)-Wpercent(6.5)/2, springLength + Hpercent(5.5), Wpercent(6.5), Hpercent(10));
+  gravityAnomalyScaled = gravityAnomaly*pow(10,5);
+  gravityTotalScaled = gravity.y + gravityAnomalyScaled;
 
-  //texts
-  stringAtSpringBase = 'Spring length: ' + measuredSpringLength.toPrecision(4) + ' μm';
-  charWidth = textWidth(stringAtSpringBase);          
-  text(stringAtSpringBase, Wpercent(66.667)-charWidth/2, Hpercent(4));
+  velocity.add(force);
+  velocity.add(gravityTotalVector);
 
-  drawGraph();
-
-  //defined variables
-  let count = 60;
-  let px = count;
-  let py = anomaliesArray[0] * Math.pow(10, 5)+500;
-
-  stroke(0);
-  strokeWeight(1);
-
-  for (var i = 0; i < lim; i+=10){
-    console.log(i);
-    measuredSpringLength = (0.005 + (gravityAnomaly/k))*pow(10,3);
-
-    //Motion equations
-    force = p5.Vector.sub(bob, anchor);
-    displacement = force.mag() - restLength;
-    springLength = (restLength + displacement)*0.80;
-    force.normalize();
-    force.mult(-1 * k * displacement);
-    
-    gravityAnomaly = anomaliesArray[i];
-
-    gravityAnomalyScaled = gravityAnomaly*pow(10,5);
-    gravityTotalScaled = gravity.y + gravityAnomalyScaled;
-
-    velocity.add(force);
-    velocity.add(gravityTotalVector);
-
-    if (gravityAnomalyScaled <= 100 && measuredSpringLength <= 10){
-        bob.add(velocity);
-    } else {
-        measuredSpringLength = 10;
-    }
-    // damping
-    velocity.mult(0.38);
-    // adjust gravity total
-    gravityTotalVector.y = gravityTotalScaled;
-    let x = count;
-    let y = anomaliesArray[i] * Math.pow(10, 5)*10;
-    line(px, py-250, x, y-250);
-    px = x;
-    py = y;
-    count += 2.925;
+  if (gravityAnomalyScaled <= 100 && measuredSpringLength <= 10){
+      bob.add(velocity);
+  } else {
+      measuredSpringLength = 10;
   }
+  // damping
+  velocity.mult(0.38);
+  // adjust gravity total
+  gravityTotalVector.y = gravityTotalScaled;
+  
+  let x = count;
+  let y = anomaliesArray[i] * Math.pow(10, 5)*10;
+  line(px, py-250, x, y-250);
+  px = x;
+  py = y;
+  count += 2.925;
+}
 }

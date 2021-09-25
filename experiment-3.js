@@ -1,11 +1,8 @@
-let canvas, canvasDiv, widthOfCanvas, heightOfCanvas;                                       //canvas related
-let widthOfCanvasInitial, heightOfCanvasInitial;
-let imgLeftPanelBackground, imgSpringBase, imgSpring, imgSpringWeight;                      //images
-let density, volume;                                                                        //interactive inputs
-let logoButton;                                                                             //buttons
-let stringAtSpringBase, gravityAnomalyPrint, gravityAnomalyString;                          //text
-let charWidth;
-
+let canvas, canvasDiv, widthOfCanvas, heightOfCanvas, widthOfCanvasInitial, heightOfCanvasInitial; //canvas related
+let imgLeftPanelBackground, imgSpringBase, imgSpring, imgSpringWeight;                             //images
+let density, volume;                                                                               //interactive inputs
+let logoButton;                                                                                    //buttons
+let stringAtSpringBase, gravityAnomalyPrint, gravityAnomalyString, charWidth;                      //text
 // colors array
 var colors = [];
 // terrain density array
@@ -14,13 +11,10 @@ var densityArray = [];
 var anomaliesArray = [];
 // volume per cell
 volume = 16;
-
 var j;
-
 let lim = 0;
 
 /*-------------------------------variables used-------------------------------*/
-
 /* --- Spring Related Variables --- */
 let bob;
 let anchor;
@@ -66,18 +60,6 @@ function makeVectors(){
     velocity = createVector(0, 0);
     gravity = createVector(0, 9.80665);
     gravityTotalVector = createVector(0, gravityTotal);
-}
-function windowResized() {
-    //canvas adjust
-    widthOfCanvas = canvasDiv.offsetWidth;
-    heightOfCanvas = windowHeight*0.80;
-    resizeCanvas(widthOfCanvas, heightOfCanvas);
-    //button adjust
-    logoButton.remove();
-    button_subtract.remove(), button_add.remove(), button_graph.remove(), button_clearGraph.remove();
-    addLogoButton();
-    addButtonsDraw();
-    adddrawGraph();
 }
 function Wpercent(desiredPercentage) {
     var convertedValue = (desiredPercentage/100)*widthOfCanvas;
@@ -409,31 +391,31 @@ function drawTerrain(){
 // function for button for graph
 function addButtonsDraw(){
     // Decrement button
-    button_subtract = createImg('/images/decrease-button.png');
-    button_subtract.position(Wpercent(3.2), Hpercent(62.5));
-    button_subtract.style('width', Wpercent(1.7) + 'px');
-    button_subtract.style('height', Hpercent(3.9) + 'px');
-    button_subtract.mousePressed(subtract);
-
+    buttonSub = createImg('/images/decrease-button.png');
+    buttonSub.position(Wpercent(3.2), Hpercent(61.5));
+    buttonSub.style('width', Wpercent(1.7) + 'px');
+    buttonSub.style('height', Hpercent(3.9) + 'px');
+    buttonSub.mousePressed(subtract);
+    
     // Increment button
-    button_add = createImg('/images/increase-button.png');
-    button_add.position(Wpercent(10.5), Hpercent(62.5));
-    button_add.style('width', Wpercent(1.7) + 'px');
-    button_add.style('height', Hpercent(3.9) + 'px');
-    button_add.mousePressed(add); 
-      
+    buttonAdd = createImg('/images/increase-button.png');
+    buttonAdd.position(Wpercent(10.5), Hpercent(61.5));
+    buttonAdd.style('width', Wpercent(1.7) + 'px');
+    buttonAdd.style('height', Hpercent(3.9) + 'px');
+    buttonAdd.mousePressed(add); 
+    
     // Graph button
-    button_graph = createImg('/images/graph-button.png');
-    button_graph.position(Wpercent(5), Hpercent(62.5));
-    button_graph.style('width', Wpercent(5.4) + 'px');
-    button_graph.style('height', Hpercent(3.9) + 'px');
-    button_graph.mousePressed(add_continuous);
+    buttonGraph = createImg('/images/graph-button.png');
+    buttonGraph.position(Wpercent(5), Hpercent(61.5));
+    buttonGraph.style('width', Wpercent(5.4) + 'px');
+    buttonGraph.style('height', Hpercent(3.9) + 'px');
+    buttonGraph.mousePressed(addContinuous);
   
-    button_clearGraph = createImg('/images/clear-button.png');
-    button_clearGraph.position(Wpercent(37.44), Hpercent(62.5));
-    button_clearGraph.style('width', Wpercent(5.4) + 'px');
-    button_clearGraph.style('height', Hpercent(3.9) + 'px');
-    button_clearGraph.mousePressed(clear_graph);
+    buttonClearGraph = createImg('/images/clear-button.png');
+    buttonClearGraph.position(Wpercent(37.44), Hpercent(61.5));
+    buttonClearGraph.style('width', Wpercent(5.4) + 'px');
+    buttonClearGraph.style('height', Hpercent(3.9) + 'px');
+    buttonClearGraph.mousePressed(clearGraph);
 }
 // add increment for graph
 function add(){
@@ -452,7 +434,7 @@ function subtract(){
   lim -= 10;
 }
 // graph
-function add_continuous(){
+function addContinuous(){
   loop();
   var i = 0;  
   lim = 0;
@@ -467,70 +449,59 @@ function add_continuous(){
   }, 100);
 }
 // clear graph
-function clear_graph(){
+function clearGraph(){
   noLoop();
   lim = -20;
 }
 function drawGraph() {
-  scale(widthOfCanvas/widthOfCanvasInitial, heightOfCanvas/heightOfCanvasInitial);
-  fill(0,0,0);
   strokeWeight(0);
   fill(255,255,255);
-  rect(10,130,630,350);
-  //rect(Wpercent(0.681),Hpercent(16.77), Wpercent(42.89), Hpercent(45.15));
+  rect(Wpercent(1.0), Hpercent(16.5), Wpercent(43.35), Hpercent(50));
   //lines
   fill(0, 0, 0);
   stroke(0);
   strokeWeight(1);
-  textSize(16);
-
-  // y-axis
-  line(60, 450, 60, 150);
-  line(620, 450, 620, 150);
-  // x-axis 70 
-  line(60, 450, 620, 450);
-  text('70.0', 25, 455);
-  // x-axis 60
-  line(60, 350, 620, 350);
-  text('60.0', 25, 355);
-  // x-axis 50
-  line(60, 250, 620, 250);
-  text('50.0', 25, 255);
-  // x-axis 40
-  line(60, 150, 620, 150);
-  text('40.0', 25, 155);
-  // y-axis
-  /* line(Wpercent(4.08), Hpercent(58.05), Wpercent(4.08),Hpercent(19.35));
-  line(Wpercent(42.21), Hpercent(58.05), Wpercent(42.21), Hpercent(19.35));
-  // x-axis 70 
-  line(Wpercent(4.08), Hpercent(58.05), Wpercent(42.21), Hpercent(58.05));
-  text('70.0', 25, 455);
-  // x-axis 60
-  line(Wpercent(4.08), Hpercent(45.15), Wpercent(42.21), Hpercent(45.15));
-  text('60.0', 25, 355);
-  // x-axis 50
-  line(Wpercent(4.08), Hpercent(32.25), Wpercent(42.21), Hpercent(32.25));
-  text('50.0', 25, 255);
-  // x-axis 40
-  line(Wpercent(4.08), Hpercent(19.35),Wpercent(42.21), Hpercent(19.35));
-  text('40.0', 25, 155);
- */
+  textSize(widthOfCanvas/91.81);
+  line(Wpercent(4.20), Hpercent(58.05), Wpercent(4.20),Hpercent(19.35));
+  line(Wpercent(43), Hpercent(58.05), Wpercent(43), Hpercent(19.35));
+  // y-axis 70 
+  line(Wpercent(4.20), Hpercent(58.05), Wpercent(43), Hpercent(58.05));
+  text('70.0', Wpercent(1.70), Hpercent(58.69));
+  // y-axis 60
+  line(Wpercent(4.20), Hpercent(45.15), Wpercent(43), Hpercent(45.15));
+  text('60.0', Wpercent(1.70), Hpercent(45.79));
+  // y-axis 50
+  line(Wpercent(4.20), Hpercent(32.25), Wpercent(43), Hpercent(32.25));
+  text('50.0', Wpercent(1.70), Hpercent(32.89));
+  // y-axis 40
+  line(Wpercent(4.20), Hpercent(19.35),Wpercent(43), Hpercent(19.35));
+  text('40.0', Wpercent(1.70), Hpercent(19.99));
   // y-axis label
-  textSize(20);
-  text('Δg', 25, 290);
-  textSize(14);
-  text('(mGal)', 15, 320);
-
+  textSize(widthOfCanvas/104.93);
+  text('(mGal)', Wpercent(1.15), Hpercent(41.28));
+  textSize(widthOfCanvas/73.45);
+  text('Δg', Wpercent(1.72), Hpercent(37.41));
   // x-axis label
-  textSize(20);
-  text('index (j)', 290, 470);
-
+  xvar = 'index (j)';
+  charWidth = textWidth(xvar);          
+  text(xvar, Wpercent(23.6)-charWidth/2, Hpercent(60.63));
   // graph title
-  textSize(20);
-  text('Mineral Deposit Gravity Profile', 190, 505);
+  graphTitle = 'Mineral Deposit Gravity Profile';
+  charWidth = textWidth(graphTitle);
+  text(graphTitle, Wpercent(23.6)-charWidth/2, Hpercent(65.14));
+}
+function windowResized() {
+    //canvas adjust
+    widthOfCanvas = canvasDiv.offsetWidth;
+    heightOfCanvas = windowHeight*0.80;
+    resizeCanvas(widthOfCanvas, heightOfCanvas);
+    //button adjust
+    logoButton.remove();
+    buttonSub.remove(), buttonAdd.remove(), buttonGraph.remove(), buttonClearGraph.remove();
+    addLogoButton();
+    addButtonsDraw();
 }
 function setup() {
-  //canvas setup
   canvasDiv = document.getElementById('left-part-java');
   widthOfCanvas = canvasDiv.offsetWidth;
   widthOfCanvasInitial = canvasDiv.offsetWidth;
@@ -545,13 +516,28 @@ function setup() {
   generateTerrain();
   addButtonsDraw();
 }
-
+function dummyScale(widthOfCanvas, widthOfCanvasInitial, heightOfCanvas, heightOfCanvasInitial){
+  var tempWidthScale = 0;
+  var tempHeightScale = 0;
+  if (widthOfCanvas <= widthOfCanvasInitial){
+    tempWidthScale = widthOfCanvas/widthOfCanvasInitial;
+  }
+  else{
+    tempWidthScale = widthOfCanvasInitial/widthOfCanvas;
+  }
+  if (heightOfCanvas <= heightOfCanvasInitial){
+    tempHeightScale = heightOfCanvas/heightOfCanvasInitial;
+  }
+  else{
+    tempWidthScale = heightOfCanvasInitial/heightOfCanvas;
+  }
+  let result = [tempWidthScale,tempHeightScale];
+  return result;
+}
 function draw() {
   background(235, 248, 250);
   textSize(Wpercent(100)/47.967);
-  
   var restLength = Hpercent(20);
-
   //images
   image(imgLeftPanelBackground, 0, Hpercent(15), Wpercent(45.5), Hpercent(53));
   image(imgSpringBase, Wpercent(66.667)-Wpercent(28)/2, 0, Wpercent(28), Hpercent(6));
@@ -559,21 +545,22 @@ function draw() {
   image(imgSpringWeight, Wpercent(66.67)-Wpercent(6.5)/2, springLength + Hpercent(5.5), Wpercent(6.5), Hpercent(10));
 
   //texts
-  stringAtSpringBase = 'Spring length: ' + measuredSpringLength.toPrecision(4) + ' μm';
+  stringAtSpringBase = 'Spring length: ' + measuredSpringLength.toPrecision(4) + ' mm';
   charWidth = textWidth(stringAtSpringBase);          
   text(stringAtSpringBase, Wpercent(66.667)-charWidth/2, Hpercent(4));
 
   drawGraph();
 
-  //defined variables
-  let count = 60;
+  let count = 61;
   let px = count;
   let py = anomaliesArray[0] * Math.pow(10, 5)+250;
 
   stroke(0);
   strokeWeight(1);
 
-  for (var i = 0; i < lim; i+=10){
+  let result = dummyScale(widthOfCanvas, widthOfCanvasInitial, heightOfCanvas, heightOfCanvasInitial);
+  scale(result[0], result[1]);
+  for (var i = 0; i < lim; i += 10){
     measuredSpringLength = (0.005 + (gravityAnomaly/k))*pow(10,3);
 
     //Motion equations
@@ -600,7 +587,7 @@ function draw() {
     velocity.mult(0.38);
     // adjust gravity total
     gravityTotalVector.y = gravityTotalScaled;
-    //scale(widthOfCanvas/widthOfCanvasInitial, heightOfCanvas/heightOfCanvasInitial);
+    
     let x = count;
     let y = anomaliesArray[i] * Math.pow(10, 5)*10;
     line(px, py-50, x, y-50);

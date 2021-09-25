@@ -145,7 +145,7 @@ function draw() {
     text(gravityAnomalyString, 10, Hpercent(20));
     text('Volume: ' + String(volume) + ' m³', 10, Hpercent(25));
     text('Density: '+ String(density)+ ' kgm⁻³', 10, Hpercent(40));
-    stringAtSpringBase = 'Spring length: ' + measuredSpringLength.toPrecision(4) + ' μm';
+    stringAtSpringBase = 'Spring length: ' + measuredSpringLength.toPrecision(4) + ' mm';
     charWidth = textWidth(stringAtSpringBase);          
     text(stringAtSpringBase, Wpercent(66.667)-charWidth/2, Hpercent(4));
 
