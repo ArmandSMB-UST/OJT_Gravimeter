@@ -309,7 +309,7 @@ function setupTerrain(){
 } 
 function computeAnomaly(){
   for (var i = Math.floor(windowHeight/1.50); i < windowHeight; i+=10){
-    for (var j = 0; j < windowWidth; j+=10){
+    for (var j = 0; j < windowWidth; j+=10){  
         var summation = 0;
         for (var k = 0; k < windowWidth; k+=10){
           summation = summation + (densityArray[i][j].density * volume);
@@ -426,18 +426,18 @@ strokeWeight(1);
 textSize(widthOfCanvas/91.81);
 line(Wpercent(4.20), Hpercent(58.05), Wpercent(4.20),Hpercent(19.35));
 line(Wpercent(43), Hpercent(58.05), Wpercent(43), Hpercent(19.35));
-// y-axis 70 
+// y-axis 50 
 line(Wpercent(4.20), Hpercent(58.05), Wpercent(43), Hpercent(58.05));
-text('70.0', Wpercent(1.70), Hpercent(58.69));
-// y-axis 60
-line(Wpercent(4.20), Hpercent(45.15), Wpercent(43), Hpercent(45.15));
-text('60.0', Wpercent(1.70), Hpercent(45.79));
-// y-axis 50
-line(Wpercent(4.20), Hpercent(32.25), Wpercent(43), Hpercent(32.25));
-text('50.0', Wpercent(1.70), Hpercent(32.89));
+text('50.0', Wpercent(1.70), Hpercent(58.69));
 // y-axis 40
+line(Wpercent(4.20), Hpercent(45.15), Wpercent(43), Hpercent(45.15));
+text('40.0', Wpercent(1.70), Hpercent(45.79));
+// y-axis 30
+line(Wpercent(4.20), Hpercent(32.25), Wpercent(43), Hpercent(32.25));
+text('30.0', Wpercent(1.70), Hpercent(32.89));
+// y-axis 20
 line(Wpercent(4.20), Hpercent(19.35),Wpercent(43), Hpercent(19.35));
-text('40.0', Wpercent(1.70), Hpercent(19.99));
+text('20.0', Wpercent(1.70), Hpercent(19.99));
 // y-axis label
 textSize(widthOfCanvas/104.93);
 text('(mGal)', Wpercent(1.15), Hpercent(41.28));
@@ -479,22 +479,20 @@ generateTerrain();
 addButtonsDraw();
 }
 function dummyScale(widthOfCanvas, widthOfCanvasInitial, heightOfCanvas, heightOfCanvasInitial){
-var tempWidthScale = 0;
-var tempHeightScale = 0;
-if (widthOfCanvas <= widthOfCanvasInitial){
-  tempWidthScale = widthOfCanvas/widthOfCanvasInitial;
-}
-else{
-  tempWidthScale = widthOfCanvasInitial/widthOfCanvas;
-}
-if (heightOfCanvas <= heightOfCanvasInitial){
-  tempHeightScale = heightOfCanvas/heightOfCanvasInitial;
-}
-else{
-  tempWidthScale = heightOfCanvasInitial/heightOfCanvas;
-}
-let result = [tempWidthScale,tempHeightScale];
-return result;
+  var tempWidthScale = 0;
+  var tempHeightScale = 0;
+  if (widthOfCanvas <= widthOfCanvasInitial){
+    tempWidthScale = widthOfCanvas/widthOfCanvasInitial;
+  } else if (widthOfCanvas > widthOfCanvasInitial){
+    tempWidthScale = widthOfCanvasInitial/widthOfCanvas;
+  }
+  if (heightOfCanvas <= heightOfCanvasInitial){
+    tempHeightScale = heightOfCanvas/heightOfCanvasInitial;
+  } else if (heightOfCanvas > heightOfCanvasInitial){
+    tempHeightScale = heightOfCanvasInitial/heightOfCanvas;
+  }
+  let result = [tempWidthScale,tempHeightScale];
+  return result;
 }
 function draw() {
 background(235, 248, 250);
@@ -515,14 +513,16 @@ text(stringAtSpringBase, Wpercent(66.667)-charWidth/2, Hpercent(4));
 drawGraph();
 
 let count = 61;
+//let count = Wpercent(4.20);
 let px = count;
-let py = anomaliesArray[0] * Math.pow(10, 5)+500;
+let py = anomaliesArray[0] * Math.pow(10, 5) + Hpercent(61);
 
 stroke(0);
 strokeWeight(1);
 
-let result = dummyScale(widthOfCanvas, widthOfCanvasInitial, heightOfCanvas, heightOfCanvasInitial);
-scale(result[0], result[1]);
+let scaleFactor = dummyScale(widthOfCanvas, widthOfCanvasInitial, heightOfCanvas, heightOfCanvasInitial);
+scale(scaleFactor[0], scaleFactor[1]);
+
 for (var i = 0; i < lim; i += 10){
   measuredSpringLength = (0.005 + (gravityAnomaly/k))*pow(10,3);
 
@@ -554,6 +554,7 @@ for (var i = 0; i < lim; i += 10){
   let x = count;
   let y = anomaliesArray[i] * Math.pow(10, 5)*10;
   line(px, py-250, x, y-250);
+  //line(px, py-Hpercent(32.25), x, y-Hpercent(32.25));
   px = x;
   py = y;
   count += 2.925;

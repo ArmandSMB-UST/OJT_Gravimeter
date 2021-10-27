@@ -538,6 +538,7 @@ function draw() {
   background(235, 248, 250);
   textSize(Wpercent(100)/47.967);
   var restLength = Hpercent(20);
+  
   //images
   image(imgLeftPanelBackground, 0, Hpercent(15), Wpercent(45.5), Hpercent(53));
   image(imgSpringBase, Wpercent(66.667)-Wpercent(28)/2, 0, Wpercent(28), Hpercent(6));
