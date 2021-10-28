@@ -7,6 +7,10 @@ canvas {
   display: block;
 }
 
+.media-prompt{
+  display: none;
+}
+
 #experiment-layout-columns {
   justify-content: space-between;
 }
@@ -31,4 +35,13 @@ canvas {
   margin: 0;
   padding: 0;
   overflow: hidden;
+}
+
+@media screen and (max-height: 600px), (max-aspect-ratio: 19/10){
+  .container-fluid{
+    display: none;
+  }
+  .media-prompt{
+    display: block;
+  }
 }
