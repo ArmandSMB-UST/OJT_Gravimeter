@@ -1,6 +1,6 @@
 # OJT_Gravimeter  
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A simulation software created in compliance to UST-Science, SCI404 course requirements of on-the-job training (OJT) under the supervision of Leo T. Armada, PhD.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A simulation software created in compliance to UST-Science, PRACTICUM (SCI404) course requirements of on-the-job training (OJT) under the supervision of Leo T. Armada, PhD.  
 
 ### About:  
 
@@ -10,6 +10,6 @@ This was a collaborative effort of UST, UP, NU and UE students.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Project Head: Armando Salvador M. Bambao
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Programmers: Emmanuel D. Gamalo and Lanze Andrei R. Racho
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Programmers: Armando Salvador M. Bambao, Emmanuel D. Gamalo and Lanze Andrei R. Racho
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Graphic Designer: Justin Gabriel F. Poso
