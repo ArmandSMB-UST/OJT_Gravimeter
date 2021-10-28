@@ -464,18 +464,18 @@ function drawGraph() {
   textSize(widthOfCanvas/91.81);
   line(Wpercent(4.20), Hpercent(58.05), Wpercent(4.20),Hpercent(19.35));
   line(Wpercent(43), Hpercent(58.05), Wpercent(43), Hpercent(19.35));
-  // y-axis 70 
+  // y-axis 40 
   line(Wpercent(4.20), Hpercent(58.05), Wpercent(43), Hpercent(58.05));
-  text('70.0', Wpercent(1.70), Hpercent(58.69));
-  // y-axis 60
+  text('40.0', Wpercent(1.70), Hpercent(58.69));
+  // y-axis 30
   line(Wpercent(4.20), Hpercent(45.15), Wpercent(43), Hpercent(45.15));
-  text('60.0', Wpercent(1.70), Hpercent(45.79));
-  // y-axis 50
+  text('30.0', Wpercent(1.70), Hpercent(45.79));
+  // y-axis 20
   line(Wpercent(4.20), Hpercent(32.25), Wpercent(43), Hpercent(32.25));
-  text('50.0', Wpercent(1.70), Hpercent(32.89));
-  // y-axis 40
+  text('20.0', Wpercent(1.70), Hpercent(32.89));
+  // y-axis 10
   line(Wpercent(4.20), Hpercent(19.35),Wpercent(43), Hpercent(19.35));
-  text('40.0', Wpercent(1.70), Hpercent(19.99));
+  text('10.0', Wpercent(1.70), Hpercent(19.99));
   // y-axis label
   textSize(widthOfCanvas/104.93);
   text('(mGal)', Wpercent(1.15), Hpercent(41.28));
@@ -552,10 +552,10 @@ function draw() {
 
   drawGraph();
 
-  let count = 61;
+  let count = 62*widthOfCanvasInitial/1469;
   let px = count;
-  let py = anomaliesArray[0] * Math.pow(10, 5)+250;
-
+  let py = anomaliesArray[0] * Math.pow(10, 5) + 300*heightOfCanvasInitial/969;
+ 
   stroke(0);
   strokeWeight(1);
 
@@ -591,7 +591,7 @@ function draw() {
     
     let x = count;
     let y = anomaliesArray[i] * Math.pow(10, 5)*10;
-    line(px, py-50, x, y-50);
+    line(px, py-30, x, y-30);
     px = x;
     py = y;
     count += 2.925;
