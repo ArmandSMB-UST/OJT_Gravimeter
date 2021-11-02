@@ -9,8 +9,8 @@ var colors = [];
 var densityArray = [];
 // anomaliesArray
 var anomaliesArray = [];
-// volume per cell
-volume = 16;
+// volume per cell in m^3
+volume = 1600 * Math.pow(10,11);
 var j;
 let lim = 0;
 
@@ -32,6 +32,7 @@ let displacement;
 /* --- Gravity Related Variables --- */
 let gravity;
 const G = 6.67384 * Math.pow(10, -11);
+const Re = 6378137;
 let gravityAnomaly;
 let gravityTotalVector;
 let gravityTotal = 0;
@@ -358,7 +359,7 @@ function computeAnomaly(){
         for (var k = 0; k < windowWidth; k+=10){
           summation = summation + (densityArray[i][j].density * volume);
         }
-        anomaliesArray[j] = summation * G;
+        anomaliesArray[j] = summation * G / Re**2;
     }
   }
 }
@@ -464,18 +465,18 @@ function drawGraph() {
   textSize(widthOfCanvas/91.81);
   line(Wpercent(4.20), Hpercent(58.05), Wpercent(4.20),Hpercent(19.35));
   line(Wpercent(43), Hpercent(58.05), Wpercent(43), Hpercent(19.35));
-  // y-axis 40 
+  // y-axis 8.25
   line(Wpercent(4.20), Hpercent(58.05), Wpercent(43), Hpercent(58.05));
-  text('40.0', Wpercent(1.70), Hpercent(58.69));
-  // y-axis 30
+  text('8.25', Wpercent(1.70), Hpercent(58.69));
+  // y-axis 7.00
   line(Wpercent(4.20), Hpercent(45.15), Wpercent(43), Hpercent(45.15));
-  text('30.0', Wpercent(1.70), Hpercent(45.79));
-  // y-axis 20
+  text('7.00', Wpercent(1.70), Hpercent(45.79));
+  // y-axis 5.25
   line(Wpercent(4.20), Hpercent(32.25), Wpercent(43), Hpercent(32.25));
-  text('20.0', Wpercent(1.70), Hpercent(32.89));
-  // y-axis 10
+  text('5.75', Wpercent(1.70), Hpercent(32.89));
+  // y-axis 4.50
   line(Wpercent(4.20), Hpercent(19.35),Wpercent(43), Hpercent(19.35));
-  text('10.0', Wpercent(1.70), Hpercent(19.99));
+  text('4.50', Wpercent(1.70), Hpercent(19.99));
   // y-axis label
   textSize(widthOfCanvas/104.93);
   text('(mGal)', Wpercent(1.15), Hpercent(41.28));
@@ -554,8 +555,8 @@ function draw() {
 
   let count = 62*widthOfCanvasInitial/1469;
   let px = count;
-  let py = anomaliesArray[0] * Math.pow(10, 5) + 300*heightOfCanvasInitial/969;
- 
+  let py = anomaliesArray[0] * Math.pow(10, 5) + 100 *heightOfCanvasInitial/969*0.8;
+
   stroke(0);
   strokeWeight(1);
 
@@ -591,7 +592,7 @@ function draw() {
     
     let x = count;
     let y = anomaliesArray[i] * Math.pow(10, 5)*10;
-    line(px, py-30, x, y-30);
+    line(px, 6.0*py-(220*heightOfCanvasInitial/969/0.8), x, 6.0*y-(220*heightOfCanvasInitial/969/0.8));
     px = x;
     py = y;
     count += 2.925;

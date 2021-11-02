@@ -34,6 +34,8 @@ let displacement;
 let gravity;
 //gravitational constant in m^3/kgs^{-2}
 const G = 6.67384 * Math.pow(10, -11);
+//earth's equatorial radius constant in m
+const Re = 6378137;
 /* gravitational anomaly */
 let gravityAnomaly;
 /* total vector */
@@ -143,7 +145,7 @@ function draw() {
 
     //texts
     text(gravityAnomalyString, 10, Hpercent(20));
-    text('Volume: ' + String(volume) + ' m³', 10, Hpercent(25));
+    text('Volume (10¹⁴): ' + String(volume) + ' m³', 10, Hpercent(25));
     text('Density: '+ String(density)+ ' kgm⁻³', 10, Hpercent(40));
     stringAtSpringBase = 'Spring length: ' + measuredSpringLength.toPrecision(4) + ' mm';
     charWidth = textWidth(stringAtSpringBase);          
@@ -153,7 +155,7 @@ function draw() {
     var restLength = Hpercent(20);
     density = densitySlider.value();
     measuredSpringLength = (0.005 + (gravityAnomaly/k))*pow(10,3);
-    gravityAnomaly = density * volume * G;
+    gravityAnomaly = density * volume * G / Re**2 * Math.pow(10, 14);
 
     //Motion equations
     // vector to sphere weight from spring base
@@ -166,6 +168,8 @@ function draw() {
     
     // scaled values (actual length and pixels)
     gravityAnomalyScaled = gravityAnomaly*pow(10,5);
+    console.log(gravityAnomaly);
+    console.log(gravityAnomalyScaled);
     gravityTotalScaled = gravity.y + gravityAnomalyScaled;
 
     // moves the bob -> assumption: F = m*a (if m == 1kg)
