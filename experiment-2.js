@@ -10,7 +10,7 @@ var densityArray = [];
 // anomaliesArray
 var anomaliesArray = [];
 // volume per cell in m^3
-volume = 1600 * Math.pow(10,11);
+volume = 16 * Math.pow(10,6);
 var j;
 let lim = 0;
 
@@ -315,7 +315,7 @@ function computeAnomaly(){
         for (var k = 0; k < windowWidth; k+=10){
           summation = summation + (densityArray[i][j].density * volume);
         }
-        anomaliesArray[j] = summation * G / Re**2;
+        anomaliesArray[j] = summation * G / 1000**2;
     }
   }
 }
@@ -427,18 +427,18 @@ strokeWeight(1);
 textSize(widthOfCanvas/91.81);
 line(Wpercent(4.20), Hpercent(58.05), Wpercent(4.20),Hpercent(19.35));
 line(Wpercent(43), Hpercent(58.05), Wpercent(43), Hpercent(19.35));
-// y-axis 12.0 
+// y-axis 70.0 
 line(Wpercent(4.20), Hpercent(58.05), Wpercent(43), Hpercent(58.05));
-text('12.0', Wpercent(1.70), Hpercent(58.69));
-// y-axis 11.0
+text('70.0', Wpercent(1.70), Hpercent(58.69));
+// y-axis 60.0
 line(Wpercent(4.20), Hpercent(45.15), Wpercent(43), Hpercent(45.15));
-text('11.0', Wpercent(1.70), Hpercent(45.79));
-// y-axis 10.0
+text('60.0', Wpercent(1.70), Hpercent(45.79));
+// y-axis 50.0
 line(Wpercent(4.20), Hpercent(32.25), Wpercent(43), Hpercent(32.25));
-text('10.0', Wpercent(1.70), Hpercent(32.89));
-// y-axis 9
+text('50.0', Wpercent(1.70), Hpercent(32.89));
+// y-axis 40.0
 line(Wpercent(4.20), Hpercent(19.35),Wpercent(43), Hpercent(19.35));
-text('9.00', Wpercent(1.70), Hpercent(19.99));
+text('40.0', Wpercent(1.70), Hpercent(19.99));
 // y-axis label
 textSize(widthOfCanvas/104.93);
 text('(mGal)', Wpercent(1.15), Hpercent(41.28));
@@ -515,7 +515,7 @@ drawGraph();
 
 let count = 62*widthOfCanvasInitial/1469;
 let px = count;
-let py = anomaliesArray[0] * Math.pow(10, 5) + 200*heightOfCanvasInitial/969*0.8;
+let py = anomaliesArray[0] * Math.pow(10, 5) + 750*heightOfCanvasInitial/969*0.8;
  
 stroke(0);
 strokeWeight(1);
@@ -553,8 +553,7 @@ for (var i = 0; i < lim; i += 10){
   
   let x = count;
   let y = anomaliesArray[i] * Math.pow(10, 5)*10;
-  line(px, 7.5*py-(750*heightOfCanvasInitial/969/0.8), x, 7.5*y-(750*heightOfCanvasInitial/969/0.8));
-  //line(px, 10*py, x, 10*y);
+  line(px, py-(250*heightOfCanvasInitial/969/0.8), x, y-(250*heightOfCanvasInitial/969/0.8));
   px = x;
   py = y;
   count += 2.925;

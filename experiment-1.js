@@ -145,7 +145,7 @@ function draw() {
 
     //texts
     text(gravityAnomalyString, 10, Hpercent(20));
-    text('Volume (10¹⁴): ' + String(volume) + ' m³', 10, Hpercent(25));
+    text('Volume (10⁶): ' + String(volume) + ' m³', 10, Hpercent(25));
     text('Density: '+ String(density)+ ' kgm⁻³', 10, Hpercent(40));
     stringAtSpringBase = 'Spring length: ' + measuredSpringLength.toPrecision(4) + ' mm';
     charWidth = textWidth(stringAtSpringBase);          
@@ -155,7 +155,7 @@ function draw() {
     var restLength = Hpercent(20);
     density = densitySlider.value();
     measuredSpringLength = (0.005 + (gravityAnomaly/k))*pow(10,3);
-    gravityAnomaly = density * volume * G / Re**2 * Math.pow(10, 14);
+    gravityAnomaly = density * volume * G / 1000**2 * Math.pow(10, 6);
 
     //Motion equations
     // vector to sphere weight from spring base
