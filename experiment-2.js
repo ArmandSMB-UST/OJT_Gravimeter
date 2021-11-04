@@ -449,7 +449,7 @@ xvar = 'index (j)';
 charWidth = textWidth(xvar);          
 text(xvar, Wpercent(23.6)-charWidth/2, Hpercent(60.63));
 // graph title
-graphTitle = 'Mineral Deposit Gravity Profile';
+graphTitle = 'Subduction Zone Gravity Profile';
 charWidth = textWidth(graphTitle);
 text(graphTitle, Wpercent(23.6)-charWidth/2, Hpercent(65.14));
 }
