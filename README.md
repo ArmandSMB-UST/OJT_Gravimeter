@@ -13,3 +13,7 @@ This was a collaborative effort of UST, UP, NU and UE students.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Programmers: Armando Salvador M. Bambao, Emmanuel D. Gamalo and Lanze Andrei R. Racho
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Graphic Designer: Justin Gabriel F. Poso
+
+### Contact:
+Should there be any feedback or comment.
+Email: armandosalvador.bambao.sci@ust.edu.ph
