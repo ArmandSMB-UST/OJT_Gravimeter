@@ -16,4 +16,4 @@ This was a collaborative effort of UST, UP, NU and UE students.
 
 ### Contact:
 Should there be any feedback or comment.
-Email: armandosalvador.bambao.sci@ust.edu.ph
+Email: armandmb08@gmail.com
